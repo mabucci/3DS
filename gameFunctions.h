@@ -112,6 +112,7 @@ public:
   void clearInputFieldsWarnings(int);
   void testSetGoalPossession(std::string);
   void goalPossessionThrowDownCalculations();  // When PLAYER and GAME are both in the GOAL perimeter then no mater who has what possession state a throw down is mandated, winner gets full possession and loser gets ejected their highest card value plus two ‘game space units’
+  void testIfAnyIconBumped();
 
   // get and set METHODS --------------------------------------------------------------------------------
 
@@ -119,6 +120,8 @@ public:
   // Game's----------------------------------------------------------------------------------------
   bool get_bGameBumpedBack() { return _bGameBumpedBack; }  // was the GAME bumped back by the GOAL
   void set_bGameBumpedBack(bool b) { _bGameBumpedBack = b; }
+
+  int get_iGamesCardValueAtij(int i, int j) { return _iaGamesCards[i][j]; }
 
   int get_iaGamesCurrentPosition(int i) { return _iaGamesCurrentPosition[i]; }
   void set_iaGamesCurrentPosition(int i, int value) { _iaGamesCurrentPosition[i] = value; }
@@ -131,7 +134,6 @@ public:
 
   int get_iaGamesLastPosition(short i) { return _iaGamesLastPosition[i]; }
   void set_iaGamesLastPosition(short i, short value) { _iaGamesLastPosition[i] = value; }
-
 
   int get_iaGamesLastTrumpCard(int i) { return _iaGamesLastTrumpCard[i]; }
   void set_iaGamesLastTrumpCard(int i, int value) { _iaGamesLastTrumpCard[i] = value; }
@@ -160,14 +162,15 @@ public:
   int get_iaGamesXYZDeltaFromGoalsPerimeter(int i) { return _iaGamesXYZDeltaFromGoalsPerimeter[i]; }
   void set_iaGamesXYZDeltaFromGoalsPerimeter(int i, int value) { _iaGamesXYZDeltaFromGoalsPerimeter[i] = value; }
 
-  bool get_bGoalInContention() { return _bGoalInContention; }
-  void set_bGoalInContention(bool b) { _bGoalInContention = b; }
-  
+ 
   
  // void placeIcon(int[], HANDLE);
 
 
   // Goal's----------------------------------------------------------------------------------------
+
+  bool get_bGoalInContention() { return _bGoalInContention; }
+  void set_bGoalInContention(bool b) { _bGoalInContention = b; }
 
   int get_iGoalsBumpRange(){ return _iGoalsBumpRange; }
   void set_iGoalsBumpRange(int value){ _iGoalsBumpRange = value; }
@@ -204,6 +207,9 @@ public:
   bool testPlayersMovementRequestInBounds(); // if any of the Player's requested axis movement will put them out of Universe bounds then the movement request will be modified to keep the Players token in bounds 
 
   // Player's get and set ......
+
+  int get_iPlayersCardValueAtij(int i, int j) { return _iaPlayersCards[i][j]; }
+
   int get_iaPlayersCurrentPosition(int i) { return  _iaPlayersCurrentPosition[i]; }
   void set_iaPlayersCurrentPosition(int i, int value) { _iaPlayersCurrentPosition[i] = value; }
  
