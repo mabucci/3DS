@@ -1,6 +1,6 @@
 #include "gameSpace.h"
 
-//********************************************************************************************************************
+
 //********************************************************************************************************************
 //***** START  void buildGameSpace();
 // Will build and display the field(game space) and print headers for Player, Game, and Goal data.
@@ -121,10 +121,10 @@ void GameSpace::buildGameSpace()
 }
 //***** END void buildGameSpace() ENDS ********************************************************************************
 //*********************************************************************************************************************
-//*********************************************************************************************************************
 
 
-//*********************************************************************************************************************
+
+
 //*********************************************************************************************************************
 //***** START testIfAnyIconBumped STARTS ****************************************************************************** 
 void GameSpace::testIfAnyIconBumped()
@@ -135,4 +135,94 @@ void GameSpace::testIfAnyIconBumped()
 
 //***** END testIfAnyIconBumped ENDS ********************************************************************************** 
 //*********************************************************************************************************************
+
+
 //*********************************************************************************************************************
+//***** START testGoalContentionWinner STARTS *************************************************************************
+// Three possible outcomes;  GAME wins, GAME’s trump card is greater than PLAYER’s trump card and GAME has the XYZ path 
+// length to accommodate that theoretical move, PLAYER wins, PLAYER’s trump card is greater than GAME’s trump card and 
+// PLAYER has the XYZ path length to accommodate that theoretical move.    There can be no DRAW as if both trump cards 
+// have the same movement value then the SUIT decides the winder.   Qed:  Three of Hearts == 7 movement points, 
+// Four of Diamonds == 7 movement points, but Hearts bets Diamonds, so Three of Hearts winds. 
+void GameSpace::testGoalContentionWinner()
+{
+  // Player winds, Game gets kicked out   
+  if( (get_iaPlayersTrumpCard(0) + get_iaPlayersTrumpCard(1)) > (get_iaGamesTrumpCard(0) + get_iaGamesTrumpCard(1) )
+    || (get_iaPlayersTrumpCard(0) + get_iaPlayersTrumpCard(1)) == (get_iaGamesTrumpCard(0) + get_iaGamesTrumpCard(1)
+      && get_iaPlayersTrumpCard(1) > get_iaGamesTrumpCard(1)) ) // If value tie then suit decides 
+  {
+    int _LiKickDistance = get_iGamesCardValueAtij(0,0) + 1 + get_iGamesCardValueAtij(0,1) + 1 + 2;
+    int _LiAxis = randomNumberGenerator(0, 2);      
+    int _LiDirection = randomNumberGenerator(0, 1);  // 0 == negative direction 
+    
+  
+    int _LiGoalsSide = get_iaGoalsCurrentPerimeter(_LiAxis, _LiDirection); // This will give the low or high side boundary of the GOAL 
+
+    _LiDirection == 0  ?  _LiDirection = -1 : _LiDirection = +1;
+    for(int i{0}; i<3; ++i)
+      set_iaGamesLastPosition(i, get_iaGamesCurrentPosition(i));  // Need old position so ICON can be over written 
+    set_iaGamesCurrentPosition(_LiAxis, (_LiKickDistance * _LiDirection ) + _LiGoalsSide );  // New kicked out to position
+    testCorrectKickOutPosition("PLAYER");  // Test and or correct the new kicked out to position, if kicked out position is out of game space then clip that position to keep the ICON in bounds  
+    set_baGamesPossessionState(0,false);  set_baGamesPossessionState(1, false);  // Out side of GOAL possession state is false, false
+
+  }else  if ((get_iaPlayersTrumpCard(0) + get_iaPlayersTrumpCard(1)) < (get_iaGamesTrumpCard(0) + get_iaGamesTrumpCard(1))
+    || (get_iaPlayersTrumpCard(0) + get_iaPlayersTrumpCard(1)) == (get_iaGamesTrumpCard(0) + get_iaGamesTrumpCard(1)
+      && get_iaPlayersTrumpCard(1) < get_iaGamesTrumpCard(1)))  // If value tie then suit decides 
+  {
+    int _LiKickDistance = get_iPlayersCardValueAtij(0, 0) + 1 + get_iPlayersCardValueAtij(0, 1) + 1 + 2;
+    int _LiAxis = randomNumberGenerator(0, 2);
+    int _LiDirection = randomNumberGenerator(0, 1);
+
+    int _LiGoalsSide = get_iaGoalsCurrentPerimeter(_LiAxis, _LiDirection);
+
+    _LiDirection == 0 ? _LiDirection = -1 : _LiDirection = +1;
+    for (int i{ 0 }; i < 3; ++i)
+      set_iaPlayersLastPosition(i, get_iaPlayersCurrentPosition(i));
+    set_iaPlayersCurrentPosition(_LiAxis, (_LiKickDistance * _LiDirection) + _LiGoalsSide);
+    set_baPlayersPossessionState(0, false);   set_baPlayersPossessionState(1, false);
+  }
+
+}
+//***** END testGoalContentionWinner ENDS *****************************************************************************
+//*********************************************************************************************************************
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//+++++ START testCorrectKickOutPosition STARTS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+void GameSpace::testCorrectKickOutPosition(std::string icon)
+{
+  if(icon == "PLAYER")
+  {
+    for (int i{ 0 }; i < 3; ++i)
+    {
+      if (get_iaPlayersCurrentPosition(i) < 0) set_iaPlayersCurrentPosition(i, 0);
+      else if (get_iaPlayersCurrentPosition(i) > get_iaGameSpaceDimentions(0)) set_iaPlayersCurrentPosition(i, get_iaGameSpaceDimentions(0) - 1);
+    }
+  }
+  else if (icon == "GAME")
+  {
+    for (int i{ 0 }; i < 3; ++i)
+    {
+      if (get_iaGamesCurrentPosition(i) < 0) set_iaGamesCurrentPosition(i, 0);
+      else if (get_iaGamesCurrentPosition(i) > get_iaGameSpaceDimentions(0)) set_iaGamesCurrentPosition(i, get_iaGameSpaceDimentions(0) - 1);
+    }
+  }
+}
+//----- END testCorrectKickOutPosition ENDS ---------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//+++++ START randomNumberGenerator STARTS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+// A general Random Number Generator method   takes two arguments that make the [inclusive range] 
+int GameSpace::randomNumberGenerator(int a, int b)
+{
+  // random number generator seeding
+  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::mt19937 gen(seed); // Mersenne Twister engine
+
+  //  Define the desired distributions (e.g., uniform integer distribution between [m, n] inclusive m<=x<=n)  
+  std::uniform_int_distribution<int> random(a, b);
+  return random(gen);
+
+}
+//----- END randomNumberGenerator ENDS --------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------
