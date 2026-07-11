@@ -220,9 +220,11 @@ void SwitchPrint::printMain(int i, GameSpace gS)
     placement(nsGF::ICON_COLUMNE_START_OFF_SET + gS.get_iaGamesCurrentPosition(0), nsGF::ICON_ROW_START_OFF_SET + gS.get_iaGamesCurrentPosition(1));
     std::print("G");
     break;
-  } //--------------------------------------------------------------------------------------------------------------------
+  }// end  case on nsSPM::DG::GAMES_ICON_DISPLAY:----------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------------------------
+
   //Display the GOAL's perimeter
-  case nsSPM::GOALS_ICON_DISPLAY:  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  case nsSPM::GOALS_ICON_DISPLAY:  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   {
     // Cover up last GOAL perimeter icon display with ‘game space’ background 
     // // 'i' starts with Xlow + ‘game space’ off set  (0, 1) == Ylow and will stay constant as top of last GOAL perimeter is covored over
@@ -252,33 +254,34 @@ void SwitchPrint::printMain(int i, GameSpace gS)
     for (int i{ nsGF::ICON_COLUMNE_START_OFF_SET + gS.get_iaGoalsCurrentPerimeter(0,0) }; i <= nsGF::ICON_COLUMNE_START_OFF_SET + gS.get_iaGoalsCurrentPerimeter(0, 1); ++i)
     {                                          
       placement(i, nsGF::ICON_ROW_START_OFF_SET + gS.get_iaGoalsCurrentPerimeter(1, 0));
-     if (gS.get_baGoalsPossessionState(1))
-       std::cout << ORANGE; 
-     else std::cout<<LIME;
+     if (gS.get_baGamesPossessionState(0) && gS.get_baPlayersPossessionState(0))
+       std::cout << RED; 
+     else std::cout<<GREEN;
       std::cout << static_cast<char>(219);  // block char
       // (1, 1) is Yhigh this will stay constant as the bottom of the GOAL's last perimeter is coveLIME over 
       placement(i, nsGF::ICON_ROW_START_OFF_SET + gS.get_iaGoalsCurrentPerimeter(1, 1));
-      if (gS.get_baGoalsPossessionState(1))
-        std::cout << ORANGE;
-      else std::cout << LIME;
+      if (gS.get_baGamesPossessionState(0) && gS.get_baPlayersPossessionState(0))
+        std::cout << RED;
+      else std::cout << GREEN;
       std::cout << static_cast<char>(219);  // block char
     }
     // same idea as above but do it for the sides                                     // need the '<=' to fill in the lower right hand corner of GOAL's perimeter
     for (int i{ nsGF::ICON_ROW_START_OFF_SET + gS.get_iaGoalsCurrentPerimeter(1, 0) }; i <= nsGF::ICON_ROW_START_OFF_SET + gS.get_iaGoalsCurrentPerimeter(1, 1); ++i)
     {
       placement( nsGF::ICON_COLUMNE_START_OFF_SET + gS.get_iaGoalsCurrentPerimeter(0, 0), i );
-      if (gS.get_baGoalsPossessionState(1))
-        std::cout << ORANGE;
-      else std::cout << LIME;
+      if (gS.get_baGamesPossessionState(0) && gS.get_baPlayersPossessionState(0))
+        std::cout << RED;
+      else std::cout << GREEN;
       std::cout << static_cast<char>(219);
 
       placement( nsGF::ICON_COLUMNE_START_OFF_SET + gS.get_iaGoalsCurrentPerimeter(0, 1), i);
-      if (gS.get_baGoalsPossessionState(1))
-        std::cout << ORANGE;
-      else std::cout << LIME;
+      if (gS.get_baGamesPossessionState(0) && gS.get_baPlayersPossessionState(0))
+        std::cout << RED;
+      else std::cout << GREEN;
 
       std::cout << static_cast<char>(219);
-    }
+    }  // end of case on  nsSPM::GOALS_ICON_DISPLAY: ------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
 
     std::cout << RESET;
     break;
