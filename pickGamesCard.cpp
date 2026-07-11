@@ -11,21 +11,26 @@ void GameFunctions::pickGamesCard()
 
   // _L* prefix indicates local variable
   // _L* prefix indicates local variable
- 
-  int _LiPlayerHighestValueIndex{ 26 }; // Position 26 is set to -1, -1 at start. 
+  int _LiPlayersHigestCardValue{ _iaPlayersCards[0][0]+1+_iaPlayersCards[0][1]+1};
+  int _LiPlayersHighestValueIndex{ 26 }; // Position 26 is set to -1, -1 at start. 
+  int _LiPlayersTotalPathLenght{ -1 };
   int _LiPlayerTrumpCardValue{ 0 };
 
-  int _LiGameHighestValueIndex{ 26 }; // Position 26 is set to -1, -1 at start.  
+  int _LiGamesHighestCardValue{ _iaGamesCards[0][0]+1+_iaGamesCards[0][1]+1};
+  int _LiGamesHighestValueIndex{ 26 }; // Position 26 is set to -1, -1 at start.  
+  int _LiGamesLowestValueIndex{ -1 }; // To hold the index of GAME's lowest value card
   int _LiaGamePotXYZmoveInsideGOAL[3][2]{ {0, 0}, {0, 0}, {0, 0} };  // Games potential XYZ movement inside GOAL perimeter.  [axis][low/high] 
   double _LdGamesPercnetsOfXYZDeltaToGoalsPerimeter[3]{ {0}, {0}, {0} }; // Holds percent of GAME’s card value to be used in X, Y, and Z movements.
   int _LiGamesTCV{ 0 }; // Game total card value.
   int _LiGMMinGoal{ 0 };   // Games max movement in GOAL X+Y+Z.
   bool _LbGamesTrumpCardFound{ false };        
-  int _LiGameTrumpCardValue{ 0 };
+  int _LiGamesTrumpCardValue{ 0 };
   int _LiaGamesXYZMovement[3]{ 0, 0, 0 };  // Movement values inside or out side of GOAL perimeter.
-  int _LiGoalsTotalPathLenght{ 0 };
+  int _LiGamesTotalPathLenght{ -1 };
   bool _LbNGMG{ true };  // Negative GAME Movement in GOAL If this is set to ‘true’ then GAME does not have a card with a movement 
                           // value low enough to keep GAME in the GOAL perimeter
+  int i{ -1 };  //Needed for call by reference to 'swapOutCards'    
+  int _LiGoalsTotalPathLenght{ -1 };
 
   //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -87,8 +92,8 @@ void GameFunctions::pickGamesCard()
   // 
   // If the PLAYER has a possible XYZ path in the GOAL that is greater than the GAME’s possible XYZ path, and a card with that value 
   // that the PLAYER can throw-down then the GAME will loss the CONTENTION, be ejected, and the PLAYER will get second stage possession. 
-  // If both GAME and PLAYER have identical paths length and play cards with same value then it’s a “PUSH” and both will have to pick 
-  // new cards to throw-down. 
+  // If both GAME and PLAYER have identical paths length and play cards with same value then it’s a “PUSH”.   
+  //  On a 'PUSH' the card with the higher suit wins. 
   //
   // The logic below must OODA if…
   // 1. The GAME can take / keep stage two possession of the GOAL.
@@ -96,12 +101,65 @@ void GameFunctions::pickGamesCard()
   //    If it can not then D decision if to make a “PUSH” throw-down or abandon the GOAL with intentional low value throw-down card.
   //
 
+/*****
+Compare GAME's maximum in GOAL travel distance to PLAYER's maximum in GOAL travel distance.
 
+If PLAYER's in GOAL travel distance is greater than GAME's in GOAL travel distance look at PLAYERS cards for a card with that travel distance value.
+If PLAYER has a card with that value, then GAME will lose the GOAL throw-down.
+Have GAME analyze its cards, create a value distribution table and pick the card for the REQUIRED throw-down that is among the most common value.   
+GAME must preserve its card value spectrum.
+Qed:   If GAME has;  Jack of Spades, Ten of Clubs, Nine of Diamonds, and Eight of Harts, the movement value of those four cards is each twelve, so
+look for clusters of cards with the same movement value and put them in a table.     Find the clusters with the most cards in them, 
+(maximum will be four) then find the cluster in that group that has the median movement value of all the clusters in that group, and out of that 
+cluster pick the lowest suite value holding
+card for the throw-down.     That is GAME sacrifice card. 
+ 
+If PLAYER's maximum in GOAL travel distance is less that of GAME's maximum in GOAL travel distance check GAME's card list. If GAME has a card
+with a value that is greater than PLAYER's in GOAL maximum travel distance then play that card.    Use the same group and cluster analysts as 
+above to find the most abundant card with that value. 
+
+If PLAYER's and GAME's maximum in GOAL travel distance is equal then check PLAYER's card's for the cards that match that value, and GAME's 
+cards for cards that match that value.   In a 'PUSH' on card value the card with the higher suit wins.   If the maximum in GOAL travel 
+distance is seven 'game space units' then the cards that have that value are the;  Three of Harts, the Four of Diamonds, the Five of Clubs, 
+and the Six of Spades.   If all of these cards are in play between GAME and PLAYER, then which ever has the Three of Harts will win the throw-down.   
+If GAME does not have the card with the highest suit value then use group and cluster analysts to pick a sacrifice card and give up the contention.
+
+Both winner and loser of contention lose their throw-down card, if winner;  do not move in the GOAL, and get second stage possession.   
+If loser, they are ejected in a random direction from GOAL's perimeter a distance of their highest card value plus two 'game space units.
+*****/
 
   if (_bGoalInContention)
   {
+    // Test PLAYER’s top card value against GAME’s top card value if GAME’s is greater play that card.  
+    // If values are equal test suit, highest suit wins with cards played have equal value.
+    // Qed: Three of Hearts, beats Four of Diamonds.  Both have a movement value of seven ‘game space units’,
+    // but Hearts bets Diamonds
+    // 
+    // Start with the most obvious contention scenario;  both ICONs have Longest Path Values greater than their top valued card.
+    if (_iPlayersLongestPathTotal >= _LiPlayersHigestCardValue && _iGamesLongestPathTotal >= _LiGamesHighestCardValue)
+    {
+      if (_LiPlayersHigestCardValue > _LiGamesHighestCardValue)
+      {  //  If you get here then GAME can not beat PLAYER in contention over GOAL so find lest valuable GAME card and play that and by that give up the GOAL
+        for (int i{ nsGF::MAX_NUMBER_OF_GAME_CARDS - 2 }; i >= 0; --i)
+        {
+          if (_iaGamesCards[i][0] == -1) // Work up from the bottom of GAME’s card list.
+            continue;
+          if (_iaGamesCards[i][0] + 1 + _iaGamesCards[i][1] + 1 > 0) 
+          {  // If that card is found select it as GAME trump card.
+            _LiGamesLowestValueIndex = i;
+            i = swapOutCards(i);  //  GameFunctions method (in this file) that will load GAME’s trump card, and replace trump card with -1,-1 in GAME’s card list       
+            _iGamesTrumpCardMovementValue = _iaGamesTrumpCard[0] + 1 + _iaGamesTrumpCard[1] + 1;
+            _LbGamesTrumpCardFound = true;  // _L* prefix indicates local variable.
+            break; // break out of for loop
+          }
+        }
 
-  }
+      }
+
+    }
+
+  }// end of 'if (_bGoalInContention)----------------------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------------------------------------------------------
 
 // If the GOAL’s total path length, (the maximum movement that can be made while staying in the GOAL’s perimeter) is less than the GAME’s 
 // lowest card value stay close to the GOAL but out side its bump range.  GAME can move in and out of the GOAL as needed to keep this distance.
@@ -123,7 +181,7 @@ void GameFunctions::pickGamesCard()
       // Work up through GAME’s cards list looking for a card with a value that can move GAME close to GOAL but stay out of its bump range.
       if ((_iaGamesCards[i][0] + 1 + _iaGamesCards[i][1] + 1) > _iGamesTotalDeltaFromGoalsPerimeter - (_iGoalsBumpRange+1) )   
       {  // If that card is found select it as GAME trump card.
-        _LiGameHighestValueIndex = i;
+        _LiGamesHighestValueIndex = i;
         i = swapOutCards(i);  //  GameFunctions method (in this file) that will load GAME’s trump card, and replace trump card with -1,-1 in GAME’s card list       
         _iGamesTrumpCardMovementValue = _iaGamesTrumpCard[0] + 1 + _iaGamesTrumpCard[1] + 1;
         _LbGamesTrumpCardFound = true;  // _L* prefix indicates local variable.
@@ -132,7 +190,7 @@ void GameFunctions::pickGamesCard()
       // If GOAL is farther away than GAME highest card value. 
       if ((_iaGamesCards[i][0] + 1 + _iaGamesCards[i][1] + 1) < _iGamesTotalDeltaFromGoalsPerimeter - (_iGoalsBumpRange+1) && i == 0)
       {  // If that card is found select it as GAME trump card.      
-        _LiGameHighestValueIndex = i;
+        _LiGamesHighestValueIndex = i;
         i = swapOutCards(i);  //  GameFunctions method (in this file) that will load GAME’s trump card, and replace trump card in GAME's card stack with -1,-1 in GAME’s card list
         _iGamesTrumpCardMovementValue = _iaGamesTrumpCard[0] + 1 + _iaGamesTrumpCard[1] + 1;
         _LbGamesTrumpCardFound = true;  // _L* prefix indicates local variable.
@@ -176,7 +234,7 @@ void GameFunctions::pickGamesCard()
       // Work up through GAME’s cards list looking for a card with a value that can move GAME into the GOAL.
       if ((_iaGamesCards[i][0] + 1 + _iaGamesCards[i][1] + 1) >= _iGamesTotalDeltaFromGoalsPerimeter)    // _L* prefix indicates local variable
       {  // If that card is found select it as GAME trump card.
-        _LiGameHighestValueIndex = i;
+        _LiGamesHighestValueIndex = i;
         i = swapOutCards(i);  //  GameFunctions method (in this file) that will load GAME’s trump card, and replace trump card with -1,-1 in GAME’s card list       
         _iGamesTrumpCardMovementValue = _iaGamesTrumpCard[0] + 1 + _iaGamesTrumpCard[1] + 1;
         _LbGamesTrumpCardFound = true;  // _L* prefix indicates local variable.
@@ -185,7 +243,7 @@ void GameFunctions::pickGamesCard()
       // Need to find a card that will put the GAME in the GOAL's perimeter, not pass through it and land out side the GOAL’s opposite side.  
       if ((_iaGamesCards[i][0] + 1 + _iaGamesCards[i][1] + 1) <= _iGamesTotalDeltaFromGoalsPerimeter && i == 0)
       {  // If that card is found select it as GAME trump card.      
-        _LiGameHighestValueIndex = i;
+        _LiGamesHighestValueIndex = i;
         i = swapOutCards(i);  //  GameFunctions method (in this file) that will load GAME’s trump card, and replace trump card in GAME's card stack with -1,-1 in GAME’s card list
         _iGamesTrumpCardMovementValue = _iaGamesTrumpCard[0] + 1 + _iaGamesTrumpCard[1] + 1;
         _LbGamesTrumpCardFound = true;  // _L* prefix indicates local variable.
