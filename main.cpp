@@ -60,10 +60,12 @@ int main()
   while(1)  // Loop is broken by PLAY pressing ‘esc’ key at certain prompts 
   { 
    
-    // Now test if the Goal is in possession, if it is not then then test if it will make random move and or size change.    
+    // Now test if the Goal is in possession, if it is not then then test if it will make random move and or size change.  
+    /*********************************************************************************************************************************************
   if (_bContinue = gS.testIfGoalShouldMoveOrResize())    
     sP.printMain(nsSPM::DC::GOALS_DATA_DISPLAY, gS);
-     
+ *****************************************************************************************************************************************************/
+
     // If a player’s (GAME or PLAYER) move put them in side the GOAL, or that move keeps them in the GOAL update their possession state.
     gS.testSetGoalPossession("GAME");
     gS.testSetGoalPossession("PLAYER");
@@ -110,12 +112,17 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
       // Calculations needed by GAME to decide to contest or relinquish the GOAL   only needed if GOAL is in contention 
       gS.goalPossessionThrowDownCalculations(); // 
       gS.set_bGoalInContention(true);
+      gS.pickGamesCard();  // Have GAME pick its top trump card first else a lot of work will be needed for GAME to see PLAYER’s highest card.   
+                           // If PLAYER picks first, and picks it top value card, that card is -1, -1, out
+                           // but the card stack is not re - ordered, so GAME logic will see zero as PLAYER’s top card value.
       _cQuit = gS.pickPlayersCard();
       // check for "quit" when returning from any method that has player input always check for "ESC" to exit game
       if (_cQuit == nsGF::ESC)
         return 0;
-      gS.pickGamesCard();
+    
+      gS.testGoalContentionWinner();
       gS.set_bGoalInContention(false);
+      sP.printMain(nsSPM::DC::CLEAR_GOAL_IN_CONTENTION, gS);
     }
 //---------------------------------------------------------------------------------------------------------------------
 
