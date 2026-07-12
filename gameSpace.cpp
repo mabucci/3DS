@@ -162,7 +162,7 @@ void GameSpace::testGoalContentionWinner()
     for(int i{0}; i<3; ++i)
       set_iaGamesLastPosition(i, get_iaGamesCurrentPosition(i));  // Need old position so ICON can be over written 
     set_iaGamesCurrentPosition(_LiAxis, (_LiKickDistance * _LiDirection ) + _LiGoalsSide );  // New kicked out to position
-    testCorrectKickOutPosition("PLAYER");  // Test and or correct the new kicked out to position, if kicked out position is out of game space then clip that position to keep the ICON in bounds  
+    testCorrectKickOutPosition("GAME");  // Test and or correct the new kicked out to position, if kicked out position is out of game space then clip that position to keep the ICON in bounds  
     set_baGamesPossessionState(0,false);  set_baGamesPossessionState(1, false);  // Out side of GOAL possession state is false, false
 
   }else  if ((get_iaPlayersTrumpCard(0) + get_iaPlayersTrumpCard(1)) < (get_iaGamesTrumpCard(0) + get_iaGamesTrumpCard(1))
@@ -179,6 +179,7 @@ void GameSpace::testGoalContentionWinner()
     for (int i{ 0 }; i < 3; ++i)
       set_iaPlayersLastPosition(i, get_iaPlayersCurrentPosition(i));
     set_iaPlayersCurrentPosition(_LiAxis, (_LiKickDistance * _LiDirection) + _LiGoalsSide);
+    testCorrectKickOutPosition("PLAYER");  // Test and or correct the new kicked out to position, if kicked out position is out of game space then clip that position to keep the ICON in bounds  
     set_baPlayersPossessionState(0, false);   set_baPlayersPossessionState(1, false);
   }
 
