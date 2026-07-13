@@ -196,7 +196,7 @@ void GameSpace::testCorrectKickOutPosition(std::string icon)
     for (int i{ 0 }; i < 3; ++i)
     {
       if (get_iaPlayersCurrentPosition(i) < 0) set_iaPlayersCurrentPosition(i, 0);
-      else if (get_iaPlayersCurrentPosition(i) > get_iaGameSpaceDimentions(0)) set_iaPlayersCurrentPosition(i, get_iaGameSpaceDimentions(0) - 1);
+      else if (get_iaPlayersCurrentPosition(i) > get_iaGameSpaceDimentions(i)-1) set_iaPlayersCurrentPosition(i, get_iaGameSpaceDimentions(i) - 1);
     }
   }
   else if (icon == "GAME")
@@ -204,7 +204,7 @@ void GameSpace::testCorrectKickOutPosition(std::string icon)
     for (int i{ 0 }; i < 3; ++i)
     {
       if (get_iaGamesCurrentPosition(i) < 0) set_iaGamesCurrentPosition(i, 0);
-      else if (get_iaGamesCurrentPosition(i) > get_iaGameSpaceDimentions(0)) set_iaGamesCurrentPosition(i, get_iaGameSpaceDimentions(0) - 1);
+      else if (get_iaGamesCurrentPosition(i) > get_iaGameSpaceDimentions(0)-1) set_iaGamesCurrentPosition(i, get_iaGameSpaceDimentions(i) - 1);
     }
   }
 }
