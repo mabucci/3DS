@@ -538,17 +538,18 @@ WORKING UP TO THIS POINT++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 /* START calculatIfBumpPossible / calculatIfBumpPossible STRTS */   
-/* If an ICON lands within the bump range of the GOAL that ICON is to be 'bumped' away from the GOAL's perimeter
+/***** 
+If an ICON lands within the bump range of the GOAL that ICON is to be 'bumped' away from the GOAL's perimeter
 in the opposite direction, from the GOAL's perimeter, along the axis that is perpendicular to the GOAL's perimeter.    
-Both GAME and PLAYER, will be tested here and bumped away if one or both meet the bump conditions.    
-*/
+Both GAME and PLAYER, will be tested here, if "true" is returned that that ICON will be bumped away.    
+This method is for testing only, bumping will be done up stream.     
+******/
 bool GameFunctions::calculateIfBumpPossible()
 {
       
   return false;    
 }
-   
-   
+      
 /* END calculatIfBumpPossible / calculatIfBumpPossible ENDS */
 /*-----------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
