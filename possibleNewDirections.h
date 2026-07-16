@@ -12,5 +12,6 @@ To occupy the GOAL, PLAYER or GAME must first move into the GOAL.  This is done 
 each card has a unique movement value.  The movement value is the sum of the face value of the card (Ace==1, 2==2... 10==10, Jack==11, King==13), plus the suit value of the \n\
 card (Spade==1, Club==2, Diamond==3, Heart==4.)    qed: the FOUR of CLUBS has a value of six movement points.    Each movement point can be used to move from one game-space-location\n\
 to another.   The points can be used all in moving on one axis or spread out over all three axis.   qed:  PLAYER is as X==i, Y==j, Z==k, wants to move to X==i+3, Y==j-4, Z==k+2, \n\
-the sum of the movement points needed is 3+4+2==9==EIGHT of SPADES==SEVEN of CLUBS==SIX of DIMONDS==FIVE of HEARTS.    If the PLAYER has any of those four cards the PLAYER can make that move.   
+the sum of the movement points needed is 3+4+2==9==EIGHT of SPADES==SEVEN of CLUBS==SIX of DIMONDS==FIVE of HEARTS.    If the PLAYER has any of those four cards the PLAYER can make that move.\n\
+
 ";
