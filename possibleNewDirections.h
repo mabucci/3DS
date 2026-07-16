@@ -19,6 +19,7 @@ To move in a negative direction along an axis simply enter the '-' before your m
 The second step in occupying the GOAL is to simply make a move while staying inside the GOAL's parameters, qed the PLAYER moves to  X, Y, Z, inside the GOAL and by that gets\n\
 first stage possession, to get second stage possession and control of the GOAL the PLAYER has to play a card with a total movement value that will let the PLAYER move,\n\
 but without moving outside of the GOAL, if the PLAYER is at X and the GOAL upper X parameter is X+10,  and the PLAYER has a card with a movement value <= X+10, then playing \n\
-that card and moving those game-space-units along the X axis inside the GOAL will keep the PLAYER in the GOAL and get the PLAYER second state possession. 
+that card and moving those game-space-units along the X axis inside the GOAL will keep the PLAYER in the GOAL and get the PLAYER second state possession.\n\
+The perimeter of the GOAL is also considered inside the GOAL if the perimeter's Z axis runs from Z to Z+10, and PLAYER or GAME are on that line then they are in the GOAL.\n\
 
 ";
