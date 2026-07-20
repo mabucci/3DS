@@ -29,7 +29,7 @@ int main()
  dPW.printMain(nsSPM::DC::DISPLAY_GREETINGS, gS);  // Switch Print class will handle screen out put prompts warnings data  mostly
 
   // if player wants to;  move up and down through greeting just roll mouse wheel, play, or quit 
-
+  // This while loop waits as the player reads the greeting, if player hits ESC game exits, else another key and game continues 
   while (1)
   {
     gS.set_Quit(_getch());
@@ -50,7 +50,7 @@ int main()
   gS.orderCards();
   gS.displayCards();
   gS.buildGameSpace();
-  gS.whoLostLastHand(_bFirstPlay);  // this is only for the first match it will randomly pick who throws-down first
+  gS.whoLostLastHand(_bFirstPlay);  // this is only for the first turn of the match it will randomly pick who throws-down first
 
   // If GOAL is not possessed then its’ chance of moving or changing shape is 1 in 10 
   // so display now before game loop starts
