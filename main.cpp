@@ -5,30 +5,30 @@
  *****/
 
 #include "gameData.h"         // gameData holds C++ include files, and constants needed for game operations\
-                                 greeting and Instructions holds namespaces with greetingInstruction string 
+                              //   greeting and Instructions holds namespaces with greetingInstruction string 
 #include "gameSpace.h"        // GameFunctions holds gamesFunctions class that will hold all the member and\
-                                 methods that work the game
+                              //   methods that work the game
 #include "displayPrompsWarning.h" // Attempt to centralize cout and print prompts and warnings and data display 
 
- //void setFontSize(int, int);   // To set the font size of the dos console 
+ //void setFontSize(int, int);   // To set the font size of the dos console   is set further down 
 
-HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); // Get the console handle
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); // Get the console handle   need this for curser placement    font size window size and so on 
 
 int main()
 {
   
-  bool _bContinue{ true }; // if Goal size is 1, 1, 1 match is over
-  char _cQuit{ '\0' };  // if player wants to quit '27' == ESC
+  bool _bContinue{ true }; // if Goal size is 1, 1, 1 match is over    this local Boolean keeps the game loop, just a while loop cycling 
+  char _cQuit{ '\0' };  // if player wants to quit '27' == ESC     hit the ESC key anywhere except X, Y, and Z position input prompts and game exits
   bool _bFirstPlay{ true }; // This will have a random pick for how has to throw-down first.
-  GameSpace gS;   // Game Space inherits from Game Function class created
-  DisplayPrompsWarning dPW; // Switch Print class will handle screen out put prompts warnings data
+  GameSpace gS;   // Game Space inherits from Game Function class created   these two classes hold most of the game's methods, additional classes may be added
+  DisplayPrompsWarning dPW; // Switch Print class will handle screen out put prompts warnings data  mostly
 
   gS.setFontSize();  // also GameFunction class method will set font size.
   gS.setUpWindow();   // call to GamedPWace class GameSpace, which inherits from the GameFunction class, the method will maximize window size.
 
- dPW.printMain(nsSPM::DC::DISPLAY_GREETINGS, gS);  // Switch Print class will handle screen out put prompts warnings data
+ dPW.printMain(nsSPM::DC::DISPLAY_GREETINGS, gS);  // Switch Print class will handle screen out put prompts warnings data  mostly
 
-  // if player wants to;  move up and down through greeting, play, or quit 
+  // if player wants to;  move up and down through greeting just roll mouse wheel, play, or quit 
 
   while (1)
   {
