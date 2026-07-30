@@ -1,0 +1,17 @@
+what you need to bump.
+if GAME has to throw-down first then bumping is not best strategy as PLAYER will have a clear view of GOAL new location in the game-space and
+can take a position to jump into GOAL from
+need to know who throws-down first; if it is the PLAYER then bumping possible 
+if PLAYER's top three cards have total movement values greater than GAME's GAME cannot outrun PLAYER
+if GAME is in a corner and PLAYER is on the far side (that is opposite side of GOAL than the corner
+if all of the above conditions are met then bumping becomes best option for GAME to maintain possession of the GOAL
+
+1. PLAYER has moved and its new location is within GAME's movement range plus the perimeter of the GOAL 
+2. Need to work out vector that will place the perimeter of the GOAL one to three game-space units from PLAYER's position
+3. That vector must run from the GAME current position to the PLAYER's new position, and its length must be the length from 
+      GAME's current position, to PLAYER's current position minus the length from GAME current position to the GOAL's perimeter, minus 1
+      That should put the GOAL's perimeter one game-space unit from the PLAYER's new position and by that instigating a "bump"
+4. The "bump" will reposition the PLAYER to a game-space unit that is a distance of the PLAYER's highest card value plus 2 game-space units 
+      from one of the GOAL's perimeters, the perimeter and direction will be randomly derived
+      
+5.  it will not be possible for GAME to miss judge the distance to bump the PLAYER 
