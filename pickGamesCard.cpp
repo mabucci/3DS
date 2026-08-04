@@ -27,8 +27,7 @@ void GameFunctions::pickGamesCard()
   int _LiGamesTrumpCardValue{ 0 };
   int _LiaGamesXYZMovement[3]{ 0, 0, 0 };  // Movement values inside or out side of GOAL perimeter.
   int _LiGamesTotalPathLenght{ -1 };
-  bool _LbNGMG{ true };  // Negative GAME Movement in GOAL If this is set to ‘true’ then GAME does not have a card with a movement 
-                          // value low enough to keep GAME in the GOAL perimeter
+  bool _LbGameCanMoveInGoal{ false };  // if set to ‘true’ then GAME has card value that will let it move and still stay within GOAL perimeter
   int i{ -1 };  //Needed for call by reference to 'swapOutCards'    
   int _LiGoalsTotalPathLenght{ -1 };
 
@@ -73,11 +72,14 @@ void GameFunctions::pickGamesCard()
   {
     if (_iaGamesCards[i][0] == -1) 
       continue;
-    if ((_iaGamesCards[i][0] + 1 + _iaGamesCards[i][1] + 1) <= _LiGoalsTotalPathLenght)
-    {
-      _LbNGMG = false; // GAME has at lest one card that’s movement value is equal to or less than the total path possible inside the GOAL
-      break;
-    }
+   if ((_iaGamesCards[i][0] + 1 + _iaGamesCards[i][1] + 1) <= _LiGoalsTotalPathLenght)
+{
+  _LbGameCanMoveInGoal = true; // GAME has at lest one card that’s movement value is equal to or less than the total path possible inside the GOAL
+  break;
+}else{
+  _LbGameCanMoveInGoal = false;
+  break;
+}
   }
 
   // Start of if/else change  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -168,7 +170,7 @@ If loser, they are ejected in a random direction from GOAL's perimeter a distanc
 // make a path in the GOAL that fits GOAL’s perimeter dimensions.  Remember GOAL's size/position change is always close at hand.
 // So, have GAME stay close to GOAL and wait for a size change that will let GAME ‘Contest’ the GOAL.
 
-  else if (_LbNGMG  && _baGamesPossessionState[0] == false && _baGamesPossessionState[1] == false )    // Start of if/else change 
+  else if (_LbGameCanMoveInGoal == false && _baGamesPossessionState[0] == false && _baGamesPossessionState[1] == false )    // Start of if/else change 
   {
     // Now want to stay close to GOAL but stay out of its’ bump range.
     for (int i{ nsGF::MAX_NUMBER_OF_GAME_CARDS - 2 }; i >= 0; --i)
@@ -304,7 +306,7 @@ If loser, they are ejected in a random direction from GOAL's perimeter a distanc
     {
       if (_iaGamesCards[i][0] == -1)
       {  // If you get here than there is no card value low enough to formulate a move along the three axis that will keep the GAME in GOAL’s perimeter.
-        _LbNGMG = true;  // Negative GAME Movement in GOAL
+        _LbGameCanMoveInGoal = false;  //  GAME can NOT move and stay in GOAL    NOT stay in GOAL 
         break;
       }
 
