@@ -372,6 +372,16 @@ If loser, they are ejected in a random direction from GOAL's perimeter a distanc
 */
   else if (_baGamesPossessionState[0] == true && _baGamesPossessionState[1] == true && _bGoalInContention == false)
   {
+     if (get_sWhoLostLastHand() == "PLAYER")
+   {
+     int stop{ 1 - };
+     stop++;
+   }
+   else if (get_sWhoLostLastHand() == "GAME")
+   {
+     int stop{ 1 - };
+     stop++;
+   }
 
 
   }
