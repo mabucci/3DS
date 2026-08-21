@@ -127,10 +127,41 @@ void GameSpace::buildGameSpace()
 
 //*********************************************************************************************************************
 //***** START testIfAnyIconBumped STARTS ****************************************************************************** 
+// if any icon is in the bump range (GOAL_BUMP_BACK_RANGE) of the GOAL then bump that icon to a new location that is a distance 
+// equal to that icon’s highest card value plus two game space units
+// the direction of the bump is to be a right angle to the GOAL’s perimeter on which the bump occurred
+// if there is not enough room between the GOAL’s perimeter and the edge of the game-space to accommodate that bump, 
+// them bump the icon from the opposite GOAL perimeter on the same axis
 void GameSpace::testIfAnyIconBumped()
 {
-  int i{ -1 };
-  ++i;
+  bool _LbPlaerBump{ false };
+  bool _LbGameBump{ false };
+  bool _LbPlayerInGoal{ false };
+  bool _LbGameInGoal{ false };
+
+  int _LiaGame[3];
+  int _LiaPlayer[3];
+  int _LiaGoal[3][2];
+
+  for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
+  {
+    _LiaGame[i] = get_iaGamesCurrentPosition(i);
+    _LiaPlayer[i] = get_iaPlayersCurrentPosition(i);
+    _LiaGoal[i][0] = get_iaGoalsCurrentPerimeter(i, 0);
+    _LiaGoal[i][1] = get_iaGoalsCurrentPerimeter(i, 1);
+  }
+
+
+
+  for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
+  { // test to make sure that Icon is out of GOAL’s perimeter. 
+    if (get_iaGamesCurrentPosition(i) < get_iaGoalsCurrentPerimeter(i, 0) || get_iaGamesCurrentPosition(i) > get_iaGoalsCurrentPerimeter(i, 1) )
+      _LbGameInGoal = true;
+    else _LbGameInGoal = false;
+    if (get_iaPlayersCurrentPosition(i) < get_iaGoalsCurrentPerimeter(i, 0) || get_iaPlayersCurrentPosition(i) > get_iaGoalsCurrentPerimeter(i, 1) )
+      _LbPlayerInGoal = true;
+    else _LbPlayerInGoal = false;
+  }
 }
 
 //***** END testIfAnyIconBumped ENDS ********************************************************************************** 
