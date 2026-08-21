@@ -141,14 +141,16 @@ void GameSpace::testIfAnyIconBumped()
 
   int _LiaGame[3];
   int _LiaPlayer[3];
-  int _LiaGoal[3][2];
+  int _LiaGoal[3];
+  int _LiaGoalP[3][2];
 
   for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
   {
     _LiaGame[i] = get_iaGamesCurrentPosition(i);
     _LiaPlayer[i] = get_iaPlayersCurrentPosition(i);
     _LiaGoal[i][0] = get_iaGoalsCurrentPerimeter(i, 0);
-    _LiaGoal[i][1] = get_iaGoalsCurrentPerimeter(i, 1);
+    _LiaGoal[i] = get_iaGoalsCurrentPositon(i);
+    _LiaGoalP[i][1] = get_iaGoalsCurrentPerimeter(i, 1);
   }
 
 
