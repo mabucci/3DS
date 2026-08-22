@@ -134,40 +134,49 @@ void GameSpace::buildGameSpace()
 // them bump the icon from the opposite GOAL perimeter on the same axis
 void GameSpace::testIfAnyIconBumped()
 {
-  bool _LbPlaerBump{ false };
-  bool _LbGameBump{ false };
-  bool _LbPlayerInGoal{ false };
-  bool _LbGameInGoal{ false };
+  bool _LbPlaerBump{ false }; // does the PLAYER get bumped
+  bool _LbGameBump{ false }; //does the GAME get bumped
+  bool _LbPlayerInGoal{ false }; // is the PLAYER in the GOAL
+  bool _LbGameInGoal{ false };   // is the GAME in the GOAL
 
-  int _LiaGame[3];
-  int _LiaPlayer[3];
-  int _LiaGoal[3];
-  int _LiaGoalP[3][2];
+  int _LiaGame[3];  // GAME's position
+  int _LiaPlayer[3];// PLAYER's position
+  int _LiaGoal[3];  // GOAL's position ( center of GOAL)
+  int _LiaGoalP[3][2]; // GOAL's perimeter [n][0] low perimeter on 'n' axis, [n][1] high perimeter on 'n' axis
 
+
+// load position data for current move
   for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
   {
     _LiaGame[i] = get_iaGamesCurrentPosition(i);
     _LiaPlayer[i] = get_iaPlayersCurrentPosition(i);
-    _LiaGoal[i][0] = get_iaGoalsCurrentPerimeter(i, 0);
     _LiaGoal[i] = get_iaGoalsCurrentPositon(i);
+    _LiaGoalP[i][0] = get_iaGoalsCurrentPerimeter(i, 0);
     _LiaGoalP[i][1] = get_iaGoalsCurrentPerimeter(i, 1);
   }
 
 
-
+// test if PLAYER or GAME will be bumped
+// simply test if ICON is in the GOAL's bump range usually 2 or 3 game-space units
+// remember the ICON must be in that range of all three axis of the GOAL
   for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
-  { // test to make sure that Icon is out of GOAL’s perimeter. 
-    if (get_iaGamesCurrentPosition(i) < get_iaGoalsCurrentPerimeter(i, 0) || get_iaGamesCurrentPosition(i) > get_iaGoalsCurrentPerimeter(i, 1) )
-      _LbGameInGoal = true;
-    else _LbGameInGoal = false;
-    if (get_iaPlayersCurrentPosition(i) < get_iaGoalsCurrentPerimeter(i, 0) || get_iaPlayersCurrentPosition(i) > get_iaGoalsCurrentPerimeter(i, 1) )
-      _LbPlayerInGoal = true;
-    else _LbPlayerInGoal = false;
+  { 
+    if ( (_LiaGame[i] < _LiaGoalP[i][0] && _LiaGame[i] >= _LiaGoalP[i][0] - nsGF::GOAL_BUMP_BACK_RANGE )
+           || _LiaGame[i] > _LiaGoalP[i][1] && _LiaGame[i] <= _LiaGoalP[i][1] + nsGF::GOAL_BUMP_BACK_RANGE ) )
+      _LbGameBump = true;
+    else _LbGameBump = false;
+     if ( (_LiaPlayer[i] < _LiaGoalP[i][0] && _LiaPlayer[i] >= _LiaGoalP[i][0] - nsGF::GOAL_BUMP_BACK_RANGE )
+           || _LiaPlayer[i] > _LiaGoalP[i][1] && _LiaPlayer[i] <= _LiaGoalP[i][1] + nsGF::GOAL_BUMP_BACK_RANGE ) )
+      _LbPlayerBump = true;
+    else _LbPlayerBump = false;
   }
+  
+  // if _LbPlayerBump  and or _LbGameBump is true here then that ICON is to be bumped away from the GOAL
 }
 
 //***** END testIfAnyIconBumped ENDS ********************************************************************************** 
 //*********************************************************************************************************************
+
 
 
 //*********************************************************************************************************************
