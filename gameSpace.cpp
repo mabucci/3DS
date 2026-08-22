@@ -180,8 +180,7 @@ void GameSpace::testIfAnyIconBumped()
    _LiDirection  = randomNumberGenerator(0, 1);
    // get value of ICON to be bumped highest card value
    _LiBumpCardValue = get_Games_Highest_Card_Value();  
-   // test if enough room to bump in direction _LiDirection on axis _LiAxis  
-   
+   // test if enough room to bump in direction _LiDirection on axis _LiAxis    
    // if there is not enough room to bump from the GOAL perimeter to the game-space boundary then flip to the opposite perimeter 
    // if bump is of the GOAL high X perimeter but the distance between that perimeter and the game-space boundary is less that the bump range
    // then flip the bump to be off GOAL low X perimeter 
