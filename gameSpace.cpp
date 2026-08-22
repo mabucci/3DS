@@ -144,7 +144,7 @@ void GameSpace::testIfAnyIconBumped()
   int _LiaGoal[3];  // GOAL's position ( center of GOAL)
   int _LiaGoalP[3][2]; // GOAL's perimeter [n][0] low perimeter on 'n' axis, [n][1] high perimeter on 'n' axis
   int _LiAxis;  // axis to be bumped along X,Y,orZ (0,1, or 2)
-
+  int _LiDirection; // direction to be bumped on 0 down, 1 up
 // load position data for current move
   for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
   {
