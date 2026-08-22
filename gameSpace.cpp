@@ -175,6 +175,15 @@ void GameSpace::testIfAnyIconBumped()
    if(_LbGameBump)
   {
    _LiAxis = randomNumberGenerator(0, nsGF::NUMBER_OF_DIMENSIONS );  // A general Random Number Generator method   takes two arguments that make the [inclusive range] 
+   _LiDirection  = randomNumberGenerator(0, 1);
+   // get value of ICON to be bumped highest card value
+   
+   // test if enough room to bump in direction _LiDirection on axis _LiAxis  
+   
+   // if there is not enough room to bump from the GOAL perimeter to the game-space boundary then flip to the opposite perimeter 
+   // if bump is of the GOAL high X perimeter but the distance between that perimeter and the game-space boundary is less that the bump range
+   // then flip the bump to be off GOAL low X perimeter 
+    
   }
   
 }
