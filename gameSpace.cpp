@@ -143,7 +143,7 @@ void GameSpace::testIfAnyIconBumped()
   int _LiaPlayer[3];// PLAYER's position
   int _LiaGoal[3];  // GOAL's position ( center of GOAL)
   int _LiaGoalP[3][2]; // GOAL's perimeter [n][0] low perimeter on 'n' axis, [n][1] high perimeter on 'n' axis
-
+  int _LiAxis;  // axis to be bumped along X,Y,orZ (0,1, or 2)
 
 // load position data for current move
   for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
@@ -172,6 +172,11 @@ void GameSpace::testIfAnyIconBumped()
   }
   
   // if _LbPlayerBump  and or _LbGameBump is true here then that ICON is to be bumped away from the GOAL
+   if(_LbGameBump)
+  {
+   _LiAxis = randomNumberGenerator(0, nsGF::NUMBER_OF_DIMENSIONS );  // A general Random Number Generator method   takes two arguments that make the [inclusive range] 
+  }
+  
 }
 
 //***** END testIfAnyIconBumped ENDS ********************************************************************************** 
