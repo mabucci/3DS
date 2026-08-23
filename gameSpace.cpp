@@ -144,7 +144,7 @@ void GameSpace::testIfAnyIconBumped()
   int _LiaGoal[3];  // GOAL's position ( center of GOAL)
   int _LiaGoalP[3][2]; // GOAL's perimeter [n][0] low perimeter on 'n' axis, [n][1] high perimeter on 'n' axis
   int _LiAxis;  // axis to be bumped along X,Y,orZ (0,1, or 2)
-  int _LiDirection; // direction to be bumped on 0 down, 1 up
+  int _LiDirection; // direction to be bumped a long an axis 0 down, 1 up
   int _LiBumpCardValue; // icon to be bumped highest card value 
   
 // load position data for current move
@@ -184,11 +184,11 @@ void GameSpace::testIfAnyIconBumped()
    // if there is not enough room to bump from the GOAL perimeter to the game-space boundary then flip to the opposite perimeter 
    // if bump is of the GOAL high X perimeter but the distance between that perimeter and the game-space boundary is less that the bump range
    // then flip the bump to be off GOAL low X perimeter 
-    if(_LiDirection == 0)
+    if(_LiDirection == 0)  // direction to be bumped a long an axis 0 down, 1 up
      if(_LiaGoalP[_LiAxis][_LiDirection] - _LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE >= 0)
         set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0]-_LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE);
      else  set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1]+_LiBumpCardValue+nsGF::GOAL_BUMP_BACK_RANGE);
-   if(_LiDirection == 1)
+   if(_LiDirection == 1)  // direction to be bumped a long an axis 0 down, 1 up
       if(_LiaGoalP[_LiAxis][_LiDirection] + _LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE < nsGF::GAME_SPACE_LENGTH )
         set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1] + _LiBumpCardValue + nsGF::GOAL_BUMP_BACK_RANGE);
      else  set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE); 
@@ -206,11 +206,11 @@ void GameSpace::testIfAnyIconBumped()
    // if bump is of the GOAL high X perimeter but the distance between that perimeter and the game-space boundary is less that the bump range
    // then flip the bump to be off GOAL low X perimeter 
    
-   if(_LiDirection == 0)
+   if(_LiDirection == 0)  // direction to be bumped a long an axis 0 down, 1 up
      if(_LiaGoalP[_LiAxis][_LiDirection] - _LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE >= 0)
         set_iaPlayersCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0]-_LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE);
      else  set_iaPlayersCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1]+_LiBumpCardValue+nsGF::GOAL_BUMP_BACK_RANGE);
-   if(_LiDirection == 1)
+   if(_LiDirection == 1)  // direction to be bumped a long an axis 0 down, 1 up
       if(_LiaGoalP[_LiAxis][_LiDirection] + _LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE < nsGF::GAME_SPACE_LENGTH )
         set_iaPlayersCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1] + _LiBumpCardValue + nsGF::GOAL_BUMP_BACK_RANGE);
      else  set_iaPlayersCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE);  
