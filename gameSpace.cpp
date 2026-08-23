@@ -192,7 +192,29 @@ void GameSpace::testIfAnyIconBumped()
       if(_LiaGoalP[_LiAxis][_LiDirection] + _LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE < nsGF::GAME_SPACE_LENGTH )
         set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1] + _LiBumpCardValue + nsGF::GOAL_BUMP_BACK_RANGE);
      else  set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE); 
-  }
+  }// end if(_LbGameBump)
+    // same code as above but setup to bump PLAYER not GAME,  both can be bumped away from GOAL on same hand
+  if(_LbPlayerBump)
+  {
+    // A general Random Number Generator method   takes two arguments that make the [inclusive range]   
+   _LiAxis = randomNumberGenerator(0, nsGF::NUMBER_OF_DIMENSIONS ); 
+   _LiDirection  = randomNumberGenerator(0, 1);
+   // get value of ICON to be bumped highest card value
+   _LiBumpCardValue = get_Players_Highest_Card_Value();  
+   // test if enough room to bump in direction _LiDirection on axis _LiAxis  
+   // if there is not enough room to bump from the GOAL perimeter to the game-space boundary then flip to the opposite perimeter 
+   // if bump is of the GOAL high X perimeter but the distance between that perimeter and the game-space boundary is less that the bump range
+   // then flip the bump to be off GOAL low X perimeter 
+   
+   if(_LiDirection == 0)
+     if(_LiaGoalP[_LiAxis][_LiDirection] - _LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE >= 0)
+        set_iaPlayersCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0]-_LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE);
+     else  set_iaPlayersCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1]+_LiBumpCardValue+nsGF::GOAL_BUMP_BACK_RANGE);
+   if(_LiDirection == 1)
+      if(_LiaGoalP[_LiAxis][_LiDirection] + _LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE < nsGF::GAME_SPACE_LENGTH )
+        set_iaPlayersCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1] + _LiBumpCardValue + nsGF::GOAL_BUMP_BACK_RANGE);
+     else  set_iaPlayersCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE);  
+  }// end if(_LbPlayerBump)
   
 }
 
