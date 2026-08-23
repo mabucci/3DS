@@ -184,7 +184,14 @@ void GameSpace::testIfAnyIconBumped()
    // if there is not enough room to bump from the GOAL perimeter to the game-space boundary then flip to the opposite perimeter 
    // if bump is of the GOAL high X perimeter but the distance between that perimeter and the game-space boundary is less that the bump range
    // then flip the bump to be off GOAL low X perimeter 
-    
+    if(_LiDirection == 0)
+     if(_LiaGoalP[_LiAxis][_LiDirection] - _LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE >= 0)
+        set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0]-_LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE);
+     else  set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1]+_LiBumpCardValue+nsGF::GOAL_BUMP_BACK_RANGE);
+   if(_LiDirection == 1)
+      if(_LiaGoalP[_LiAxis][_LiDirection] + _LiBumpCardValue-nsGF::GOAL_BUMP_BACK_RANGE < nsGF::GAME_SPACE_LENGTH )
+        set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1] + _LiBumpCardValue + nsGF::GOAL_BUMP_BACK_RANGE);
+     else  set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE); 
   }
   
 }
