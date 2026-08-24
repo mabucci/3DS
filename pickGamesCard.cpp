@@ -351,7 +351,7 @@ If loser, they are ejected in a random direction from GOAL's perimeter a distanc
 // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  
 // START of "If GAME in possession of GOAL" TURE TRUE and GOAL not in contention &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 /*
-* To be here GAME has second state possession of the GOAL and PLAYER is waiting on GAME’s next throw-down, OODA for the following;  
+* To be here GAME has second state possession of the GOAL and PLAYER is not in GOAL   OODA for the following;  
 * one: can GAME use GOAL to bump PLAYER away, 
 * two: can GAME out run PLAYER, 
 * three: is it better to stand at a position and invite a GOAL contention.
