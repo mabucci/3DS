@@ -377,12 +377,10 @@ If loser, they are ejected in a random direction from GOAL's perimeter a distanc
       // GOAL is not in contention, and GAME has stage two possession so make OODA for second half of this hand 
      // if PLAYER is between GOAL and game-space boundary and distance from GOAL to boundary is less than 1/4 of the length of any axis then
      // move in the opposite direction to PLAYER   
-
-     
-
-     
     int stop{ -1};
-     stop++;
+    stop++;
+
+     // 
    }
    else if (get_sWhoLostLastHand() == "GAME")
    {
