@@ -116,11 +116,12 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
       gS.pickGamesCard();  // Have GAME pick its top trump card first else a lot of work will be needed for GAME to see PLAYER’s highest card.   
                            // If PLAYER picks first, and picks it top value card, that card is -1, -1, out
                            // but the card stack is not re - ordered, so GAME logic will see zero as PLAYER’s top card value.
+      gS.testIfAnyIconBumped();
       _cQuit = gS.pickPlayersCard();
       // check for "quit" when returning from any method that has player input always check for "ESC" to exit game
       if (_cQuit == nsGF::ESC)
         return 0;
-    
+      gS.testIfAnyIconBumped();
       gS.testGoalContentionWinner();
       gS.set_bGoalInContention(false);
      dPW.printMain(nsSPM::DC::CLEAR_GOAL_IN_CONTENTION, gS);
@@ -137,6 +138,7 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
       // The player will now pick a card to throw-down, That card will be removed from the Player’s 
       //stack of playable cards and it’s movement points will be save in the Player’s movement points bank
       _cQuit = gS.pickPlayersCard();
+      gS.testIfAnyIconBumped();
       // check for "quit" when returning from any method that has player input always check for "ESC" to exit game
       if (_cQuit == nsGF::ESC)
         return 0;
@@ -168,7 +170,8 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
 
       // Now the GAME will see the PLAYER’s card pick and use that data to formulate it card pick and movement.
       // Pick GAME's card instructions go here       
-      gS.pickGamesCard();            
+      gS.pickGamesCard();       
+      gS.testIfAnyIconBumped();
     } // END 'if' on PLAYER lost last hand...
     //-----------------------------------------------------------------------------------------------------------------
     
@@ -178,6 +181,7 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
       // GAME has lost last hand and must pick a card to throw-down and formulate it movement request.
       // Pick GAME's card instructions go here....................................................................................
       gS.pickGamesCard();
+      gS.testIfAnyIconBumped();
    
       gS.orderCards();   // Looking at GAME’s card stack you can tell if GAME picked first as it stack will be one less than PLAYER’s
       gS.displayCards();
@@ -201,7 +205,9 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
 
       // Test player’s movement request, if any axis movement will put the player’s token out of the
       // playing field that movement request will be clipped to keep the player in bounds  
-      gS.testPlayersMovementRequestInBounds();
+     gS.testPlayersMovementRequestInBounds(); 
+     gS.testIfAnyIconBumped();
+     
      dPW.printMain(nsSPM::DC::CLEAR_PLAYERS_XYZ_INPUT, gS);
      dPW.placement(nsGF::PLAYER_X_POSITION_PROMPT_COLUMN, nsGF::PLAYER_X_POSITION_PROMPT_ROW);
      dPW.printMain(nsSPM::DC::PLAYERS_XYZ_POSITION_DELTAS, gS);
@@ -211,8 +217,6 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
     gS.whoLostLastHand(_bFirstPlay);  // With the first throw-down played call by reference ‘_bFirstPlay’  has been set to ‘false‘ and the winner loser can be set for next throw-down.
     gS.orderCards();
     gS.displayCards();
-    gS.testIfAnyIconBumped();
- 
    } // end of game loop .............................................................................
 //---------------------------------------------------------------------------------------------------------------------
 
