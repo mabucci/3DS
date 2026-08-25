@@ -373,16 +373,22 @@ If loser, they are ejected in a random direction from GOAL's perimeter a distanc
   else if (_baGamesPossessionState[0] == true && _baGamesPossessionState[1] == true && _bGoalInContention == false)
   {
      if (get_sWhoLostLastHand() == "PLAYER") 
-   {  // if here then PLAYER has made its trump card selection for this hand now GAME must choose its trump card and movement 
+   {  // if here then PLAYER has made its trump card selection and movement for this hand now GAME must choose its trump card and movement 
       // GOAL is not in contention, and GAME has stage two possession so make OODA for second half of this hand 
-    int stop{ 1 - };
+     // if PLAYER is between GOAL and game-space boundary and distance from GOAL to boundary is less than 1/4 of the length of any axis then
+     // move in the opposite direction to PLAYER   
+
+     
+
+     
+    int stop{ -1};
      stop++;
    }
    else if (get_sWhoLostLastHand() == "GAME")
    {
      // if here PLAYER won last throw-down and GAME must throw-down trump card first and move to a chosen position
      // this should be seen as purely defensive move 
-     int stop{ 1 - };
+     int stop{ -1};
      stop++;
    }
   }
