@@ -165,11 +165,17 @@ void GameSpace::testIfAnyIconBumped()
   { 
     if ( (_LiaGame[i] < _LiaGoalP[i][0] && _LiaGame[i] >= _LiaGoalP[i][0] - nsGF::GOAL_BUMP_BACK_RANGE )
            || _LiaGame[i] > _LiaGoalP[i][1] && _LiaGame[i] <= _LiaGoalP[i][1] + nsGF::GOAL_BUMP_BACK_RANGE ) )
+    {
       _LbGameBump = true;
+      break;
+    }
     else _LbGameBump = false;
      if ( (_LiaPlayer[i] < _LiaGoalP[i][0] && _LiaPlayer[i] >= _LiaGoalP[i][0] - nsGF::GOAL_BUMP_BACK_RANGE )
            || _LiaPlayer[i] > _LiaGoalP[i][1] && _LiaPlayer[i] <= _LiaGoalP[i][1] + nsGF::GOAL_BUMP_BACK_RANGE ) )
+     {
       _LbPlayerBump = true;
+       break;
+     }
     else _LbPlayerBump = false;
   }
   
