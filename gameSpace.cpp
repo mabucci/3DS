@@ -183,7 +183,7 @@ void GameSpace::testIfAnyIconBumped()
   // if _LbPlayerBump  and or _LbGameBump is true here then that ICON is to be bumped away from the GOAL
   if (_LbGameBump)
   {
-    _LiAxis = randomNumberGenerator(0, nsGF::NUMBER_OF_DIMENSIONS);  // A general Random Number Generator method   takes two arguments that make the [inclusive range] 
+    _LiAxis = randomNumberGenerator(0, nsGF::NUMBER_OF_DIMENSIONS-1);  // A general Random Number Generator method   takes two arguments that make the [inclusive range]  INCLUSIVE!!!
     _LiDirection = randomNumberGenerator(0, 1);
     // get value of GAME's highest card value  (0, 0) will be highst card value  this is bump value
     _LiBumpCardValue = get_iGamesCardValueAtij(0, 0) + 1 + get_iGamesCardValueAtij(0, 1) + 1;
@@ -196,15 +196,15 @@ void GameSpace::testIfAnyIconBumped()
         set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE);
       else  set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1] + _LiBumpCardValue + nsGF::GOAL_BUMP_BACK_RANGE);
     if (_LiDirection == 1)  // direction to be bumped a long an axis 0 down, 1 up
-      if (_LiaGoalP[_LiAxis][_LiDirection] + _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE < nsGF::GAME_SPACE_LENGTH)
+      if (_LiaGoalP[_LiAxis][_LiDirection] + _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE < get_iaGameSpaceDimentions(_LiAxis) )
         set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1] + _LiBumpCardValue + nsGF::GOAL_BUMP_BACK_RANGE);
       else  set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE);
   }// end if(_LbGameBump)
     // same code as above but setup to bump PLAYER not GAME,  both can be bumped away from GOAL on same hand
   if (_LbPlaerBump)
   {
-    // A general Random Number Generator method   takes two arguments that make the [inclusive range]   
-    _LiAxis = randomNumberGenerator(0, nsGF::NUMBER_OF_DIMENSIONS);
+    // A general Random Number Generator method   takes two arguments that make the [inclusive range]  INCLUSIVE!!! 
+    _LiAxis = randomNumberGenerator(0, nsGF::NUMBER_OF_DIMENSIONS-1);
     _LiDirection = randomNumberGenerator(0, 1);
     // get value of PLAYER's highest card value  (0, 0) will be highest  this is bump value
     _LiBumpCardValue = get_iPlayersCardValueAtij(0, 0) + 1 + get_iPlayersCardValueAtij(0, 1) + 1;
