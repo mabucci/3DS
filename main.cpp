@@ -82,7 +82,7 @@ int main()
    dPW.printMain(nsSPM::DG::GOALS_ICON_DISPLAY, gS); // Display the GOAL perimeter
    dPW.printMain(nsSPM::DG::PLAYERS_ICON_DISPLAY, gS); // Display the PLAYER's location on the 'game space' display
    dPW.printMain(nsSPM::DG::GAMES_ICON_DISPLAY, gS); // Display the PLAYER's location on the 'game space' display
-   
+   dPW.testForOverDraw(gS);  // must test and correct if either PLAYER or GAME is being over drawn by GOAL perimeter
 
 
 
@@ -190,6 +190,7 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
      dPW.printMain(nsSPM::DG::GOALS_ICON_DISPLAY, gS); // Display the GOAL perimeter
      dPW.printMain(nsSPM::DG::GAMES_ICON_DISPLAY, gS); // Display the PLAYER's location on the 'game space' display
      dPW.printMain(nsSPM::DG::PLAYERS_ICON_DISPLAY, gS); // Display the PLAYER's location on the 'game space' display
+     dPW.testForOverDraw(gS);  // must test and correct if either PLAYER or GAME is being over drawn by GOAL perimeter
       _cQuit = gS.pickPlayersCard();
    
       // check for "quit" when returning from any method that has player input always check for "ESC" to exit game
