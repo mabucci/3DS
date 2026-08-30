@@ -1,6 +1,7 @@
 #include "displayPrompsWarning.h"
 
-
+// ********************************************************************************************************************
+// ***** START printMain STARTS ***************************************************************************************
 void DisplayPrompsWarning::printMain(int i, GameSpace& gS)
 {
   switch (i) {
@@ -302,6 +303,26 @@ void DisplayPrompsWarning::printMain(int i, GameSpace& gS)
     std::println("At default");
     break;
   }
-
-
 }
+
+// ***** END printMain ENDS *******************************************************************************************
+// ********************************************************************************************************************
+
+// ********************************************************************************************************************
+// ***** START testForOverDraw STARTS *********************************************************************************
+void DisplayPrompsWarning::testForOverDraw(GameSpace& gS)
+{
+
+  std::cout << RESET;
+  placement(nsGF::ICON_COLUMNE_START_OFF_SET + gS.get_iaPlayersCurrentPosition(0), nsGF::ICON_ROW_START_OFF_SET + gS.get_iaPlayersCurrentPosition(1));
+  std::print("P");
+  placement(nsGF::ICON_COLUMNE_START_OFF_SET + gS.get_iaGamesCurrentPosition(0), nsGF::ICON_ROW_START_OFF_SET + gS.get_iaGamesCurrentPosition(1));
+  std::print("G");
+  if (gS.get_iaGamesCurrentPosition(0) == gS.get_iaPlayersCurrentPosition(0) && gS.get_iaGamesCurrentPosition(1) == gS.get_iaPlayersCurrentPosition(1))
+  {
+    placement(nsGF::ICON_COLUMNE_START_OFF_SET + gS.get_iaGamesCurrentPosition(0), nsGF::ICON_ROW_START_OFF_SET + gS.get_iaGamesCurrentPosition(1));
+    std::print("X");
+  } 
+}
+// ***** END testForOverDraw ENDS *************************************************************************************
+// ********************************************************************************************************************
