@@ -30,4 +30,5 @@ public:
   void printGameFuntions(int);
   void printPickPlayersCard(int);
   void clearPlayersXYZinput(); // Clear PLAYER’S X, Y, and Z input feels
+  void testForOverDraw(GameSpace&); // must test and correct if either PLAYER or GAME is being over drawn by GOAL perimeter
 };
