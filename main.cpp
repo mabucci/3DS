@@ -75,7 +75,7 @@ int main()
 
     // Display Player's last card played data cout two rows down from header 
     // Headers are displayed by gameSpace.cpp
-   
+   gS.testIfAnyIconBumped();  // test if ICON (PLAYER or GAME) has moved into GOAL's bump range, if so bump that ICON to new position in game-space
    dPW.printMain(nsSPM::DC::PLAYERS_DATA_DISPLAY, gS); // Switch Print class will handle screen out put prompts warnings data MOSTLY!
    dPW.printMain(nsSPM::DC::GAMES_DATA_DISPLAY, gS);
    dPW.printMain(nsSPM::DC::GOALS_DATA_DISPLAY, gS);
@@ -116,9 +116,9 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
       gS.pickGamesCard();  // Have GAME pick its top trump card first else a lot of work will be needed for GAME to see PLAYER’s highest card.   
                            // If PLAYER picks first, and picks it top value card, that card is -1, -1, out
                            // but the card stack is not re - ordered, so GAME logic will see zero as PLAYER’s top card value.
-      gS.testIfAnyIconBumped();
+     
       _cQuit = gS.pickPlayersCard();
-      gS.testIfAnyIconBumped();
+      
       // check for "quit" when returning from any method that has player input always check for "ESC" to exit game
       if (_cQuit == nsGF::ESC)
         return 0;
@@ -158,7 +158,7 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
       // Test player’s movement request, if any axis movement will put the player’s token out of the
       // playing field that movement request will be clipped to keep the player in bounds  
       gS.testPlayersMovementRequestInBounds();      
-      gS.testIfAnyIconBumped();
+      
       // If a player’s (GAME or PLAYER) move put them in side the GOAL, or that move keeps them in the GOAL update their possession state.
    //   gS.testSetGoalPossession("PLAYER");
      dPW.printMain(nsSPM::DC::CLEAR_GOAL_IN_CONTENTION, gS);
@@ -171,7 +171,7 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
       // Now the GAME will see the PLAYER’s card pick and use that data to formulate it card pick and movement.
       // Pick GAME's card instructions go here       
       gS.pickGamesCard();  
-      gS.testIfAnyIconBumped();
+     
     } // END 'if' on PLAYER lost last hand...
     //-----------------------------------------------------------------------------------------------------------------
     
@@ -181,7 +181,7 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
       // GAME has lost last hand and must pick a card to throw-down and formulate it movement request.
       // Pick GAME's card instructions go here....................................................................................
       gS.pickGamesCard();
-      gS.testIfAnyIconBumped();
+      
    
       gS.orderCards();   // Looking at GAME’s card stack you can tell if GAME picked first as it stack will be one less than PLAYER’s
       gS.displayCards();
@@ -206,7 +206,7 @@ position out side of the GOAL’s range.   PLAYER will have ps1 and ps2, it may 
       // Test player’s movement request, if any axis movement will put the player’s token out of the
       // playing field that movement request will be clipped to keep the player in bounds  
       gS.testPlayersMovementRequestInBounds();
-      gS.testIfAnyIconBumped();
+      
      dPW.printMain(nsSPM::DC::CLEAR_PLAYERS_XYZ_INPUT, gS);
      dPW.placement(nsGF::PLAYER_X_POSITION_PROMPT_COLUMN, nsGF::PLAYER_X_POSITION_PROMPT_ROW);
      dPW.printMain(nsSPM::DC::PLAYERS_XYZ_POSITION_DELTAS, gS);
