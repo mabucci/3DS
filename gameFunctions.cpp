@@ -592,14 +592,9 @@ bool _bBadInput{ false };
   for (int i = 0; i < 3; ++i)
   {
     set_iaPlayersRequestedMove(i, 0, _iaXyz[i]);
-    set_iaPlayersLastPosition(i, get_iaPlayersCurrentPosition(i));
   }
   
- 
-
   return false;  // player wants to continue
- 
-return false;  // player wants to continue
 }  
 //***** END testPlayXyzInpu METHOD 
 //*************************************************************************************************
