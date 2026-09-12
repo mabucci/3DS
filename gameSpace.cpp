@@ -188,10 +188,11 @@ void GameSpace::testIfAnyIconBumped()
     // if bump is of the GOAL high X perimeter but the distance between that perimeter and the game-space boundary is less that the bump range
     // then flip the bump to be off GOAL low X perimeter 
     // 
-    // save PLAYER's current position as it (PLAYER's current position) is to be up dateted, the old position is needed for cleanup in 
-    //   DisplayPrompsWarning  dPW.printMain(nsSPM::DG::PLAYERS_ICON_DISPLAY, gS); // Display the PLAYER's location on the 'game space' display   
+    // save GAME's current position as it (GAME's current position) is to be up dateted, the old position is needed for cleanup in 
+    //   DisplayPrompsWarning  dPW.printMain(nsSPM::DG::GAMES_ICON_DISPLAY, gS); // Display the GAME's location on the 'game space' display   
     for (int i{ 0 }; i < 3; ++i)
-      set_iaPlayersLastPosition(i, get_iaPlayersCurrentPosition(i));
+      set_iaGamesLastPosition(i, get_iaGamesCurrentPosition(i));
+    
     if (_LiDirection == 0)  // direction to be bumped a long an axis 0 down, 1 up
       if (_LiaGoalP[_LiAxis][_LiDirection] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE >= 0)
         set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE);
@@ -202,6 +203,7 @@ void GameSpace::testIfAnyIconBumped()
       else  set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE);
   }// end if(_LbGameBump)
   testCorrectKickOutPosition("GAME");  // Test and or correct the new bumped to position, if bumped to position is out of game space then clip that position to keep the ICON in bounds 
+  
     // same code as above but setup to bump PLAYER not GAME,  both can be bumped away from GOAL on same hand
   if (_LbPlayrBump)
   {
@@ -215,10 +217,11 @@ void GameSpace::testIfAnyIconBumped()
     // if bump is of the GOAL high X perimeter but the distance between that perimeter and the game-space boundary is less that the bump range
     // then flip the bump to be off GOAL low X perimeter 
 
-     // save GAME's current position as it (GAME's current position) is to be up dateted, the old position is needed for cleanup in 
-    //   DisplayPrompsWarning  dPW.printMain(nsSPM::DG::GAMES_ICON_DISPLAY, gS); // Display the GAME's location on the 'game space' display   
-    for (int i{ 0 }; i < 3; ++i)
-      set_iaGamesLastPosition(i, get_iaGamesCurrentPosition(i));
+     // save PLAYER's current position as it (PLAYER's current position) is to be up dateted, the old position is needed for cleanup in 
+    //   DisplayPrompsWarning  dPW.printMain(nsSPM::DG::GAMES_ICON_DISPLAY, gS); // Display the PLAYER's location on the 'game space' display   
+      for (int i{ 0 }; i < 3; ++i)
+      set_iaPlayersLastPosition(i, get_iaPlayersCurrentPosition(i));
+
     if (_LiDirection == 0)  // direction to be bumped a long an axis 0 down, 1 up
       if (_LiaGoalP[_LiAxis][_LiDirection] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE >= 0)
         set_iaPlayersCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE);
