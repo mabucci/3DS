@@ -168,13 +168,25 @@ void GameSpace::testIfAnyIconBumped()
     if ((_LiaGame[i] < _LiaGoalP[i][0] && _LiaGame[i] >= _LiaGoalP[i][0] - nsGF::GOAL_BUMP_BACK_RANGE)
       || (_LiaGame[i] > _LiaGoalP[i][1] && _LiaGame[i] <= _LiaGoalP[i][1] + nsGF::GOAL_BUMP_BACK_RANGE))
       _LbGameBump = true;
-    else _LbGameBump = false;
-    
+    else 
+    {
+      _LbGameBump = false;
+      break;
+    }
+  }
+
+    for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
+  {
     if ((_LiaPlayer[i] < _LiaGoalP[i][0] && _LiaPlayer[i] >= _LiaGoalP[i][0] - nsGF::GOAL_BUMP_BACK_RANGE)
       || (_LiaPlayer[i] > _LiaGoalP[i][1] && _LiaPlayer[i] <= _LiaGoalP[i][1] + nsGF::GOAL_BUMP_BACK_RANGE))
       _LbPlayrBump = true;
-    else _LbPlayerBump = false;
+    else
+    {
+      _LbPlayerBump = false;
+      break;
+    }
   }
+
 
   // if _LbPlayerBump  and or _LbGameBump is true here then that ICON is to be bumped away from the GOAL
   if (_LbGameBump)
