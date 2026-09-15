@@ -35,7 +35,7 @@ void GameFunctions::pickGamesCard()
 
      // Fine distance to GOAL for both PLAYER and GAME.
      // If distance is negitive then P or G is above the upper goal range
-     // If *Possession[0] == TRUE, then PLAYER or GAME is in the goal range and their delta should be set to zero
+     // If *PossessionState[0] == TRUE, then PLAYER or GAME is in the goal range and their delta should be set to zero
 
       // The GAME needs to know both its’ and the PLAYER’s Delta from the GOAL. 
       // The difference in ‘game space units’ from the PLAYER’s current position and the GOAL closes boundary.   
