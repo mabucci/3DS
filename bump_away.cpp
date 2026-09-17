@@ -13,6 +13,12 @@ P >= Y0 &&  P <= Y1   &&  P >= Z0 &&  P <= Z1
 // if all this comes back as true then 
 // this will put P on top of the GOAL or under it bottom and in it's bump_rang
 
+// this will tell if P is in front of or behind the GOAL and inside the bump_range 
+P < GZ0 && P >= GZ0 - bump_range  ||  P > GZ1 && P <= GZ1 + bump_range 
+// now need to find if P is both inside of GX0 to GX1, and at same time inside of GY0 to GY1 
+P >= GX0 &&  P <= GX1   &&  P >= GY0 &&  P <= GY1
+// if all this comes back as true then 
+// this will put P in front of or behinid the GOAL and in it's bump_rang
 
 
   
