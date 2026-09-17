@@ -20,5 +20,64 @@ P >= GX0 &&  P <= GX1   &&  P >= GY0 &&  P <= GY1
 // if all this comes back as true then 
 // this will put P in front of or behinid the GOAL and in it's bump_rang
 
+/***********************************************************************************************************************************
+1. find the GOAL perimeter axes that are the closes to GAME’s current position
+2. if GAME is outside the confines of any axis sets then head for the closes corner of the GOAL’s perimeter
+3. if inside one axis confine;  qed  GAME < X0, Y0 < GAME < Y1, and GAME > Z1
+move parallel to the Y0 or Y1 axis while moving down to Z1 value
+4. if inside two axes confines (a double); qed  GAME < X0, Y0 < GAME < Y1, and Z0 < GAME < z1
+only move parallel to the Y0 or Y1 axis   this will make your path a right angle to one of the GOAL’s sides
+          |	                   |
+      G0	|       G1           |      G2
+----------|--------------------|--------------- Y0
+          |		                 |
+     G3   |         G4         |      G5
+          |		                 |
+----------|--------------------|--------------- Y1
+      G6	|          G7        |       G8
+           X0                   X1
+G0, G2, G3, G5, G6, and G8 are out of any axis confine
+G3, G5, G6, and G8 are in a single axis confine
+G4 is in a double axis confine
+************************************************************************************************************************************/
+#include <cmath> // for sqrt() function
+#include <iostream>
 
+int main()
+{
+  int Goal[3][2]{ {10,20}, {30, 40},{50, 60} };
+  int Game[3]{ 0 , 0, 0 };
+
+
+
+  while (1)
+  { 
+    std::cout << '\n' << "Enter Game's X: ";
+    std::cin >> Game[0];
+    std::cout << '\n' << "Enter Game's Y: ";
+    std::cin >> Game[1];
+    std::cout << '\n' << "Enter Game's Z: ";
+    std::cin >> Game[2];
+    // G0, G2, G3, G5, G6, and G8 are out of any axis confine
+    if ((Game[0] < Goal[0][0] && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])) ||
+      (Game[0] > Goal[0][1] && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])))
+    {
+      std::cout << '\n' << "Out of any axis confine.";
+    }
+    // G3, G5, G6, and G8 are in a single axis confine
+    else if (((Game[0] > Goal[0][0] && Game[0] < Goal[0][1]) && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])) ||
+      (Game[0]<Goal[0][0] || Game[0]>Goal[0][1] && Game[1] > Goal[1][0] && Game[1] < Goal[1][1]))
+    {
+      std::cout << '\n' << "In single asix confine.";
+    }
+    //  G4 is in a double axis confine
+    else if ((Game[0] > Goal[0][0] && Game[0]<Goal[0][1] && Game[1]>Goal[1][0] && Game[1] < Goal[1][1]))
+    {
+      std::cout << '\n' << "In double axis confine.";
+    }
+  }
+
+                 
+  return 0;
+}
   
