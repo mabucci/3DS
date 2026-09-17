@@ -158,66 +158,149 @@ void GameSpace::testIfAnyIconBumped()
   }
 
 
-  // test if PLAYER or GAME will be bumped
-  // simply test if ICON is in the GOAL's bump range usually 2 or 3 game-space units
-  // remember the ICON must be in that range of all three axis of the GOAL
- 
-  
-  
-   // try to find-out what is going on with “bump” detection
-//   ICON has to be outside the GOAL’s perimeter, but within 3 game space units of all three perimeters
-  /* for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
+  /*****
+  if ICON is three game-space units or less from each of the three axis (X, Y, Z) then it is in bump range 
+  and will be bump away from one of the GOAL’s perimeters, that is randomly picked, a number of game-space units 
+  that is the value of that ICON’s highest card plus the bump range value 
+  *****/
+
+// if ICON is in GOAL then it can’t get bounced, possession is checked before this call
+/*****
+going to break the test into three aspects;  left and right, top and bottom, front and back
+
+left and right:  the ICON must be three game-space units or less to the left of the X0 perimeter or three game-space units or less
+to the right of the X1 perimeter    while being between Y0 and Y1, and between Z0 and Z1 that will tell if the ICON is in the bump
+range of the GOAL left or right perimeter
+
+top and bottom: the ICON must be three game-space units or less above the Y0 perimeter or three or less game-space units below
+the Y1 perimeter    while being between X0 and X1, and between Z0 and Z1 this will tell if the ICON is to be bumped be GOAL’s
+top or bottom perimeter
+
+front and back: the ICON must be three game-space units or less in front of the Z1 perimeter or three or less game-space units
+behind the Z0 perimeter    while being between X0 and X1, and Y0 and Y1  this will show that the ICON is in the bump range of
+the front or back of the GOAL
+
+// this will tell if P is to the left or right of the GOAL and inside the bump_range
+P < GX0 && P >= GX0 - bump_range  ||  P > GX1 && P <= GX1 + bump_range
+// now need to find if P is both inside of GY0 to GY1, and at same time inside of GZ0 to GZ1
+P >= GY0 &&  P <= GY1   &&  P >= GZ0 &&  P <= GZ1
+// if all this comes back as true then
+// this will put P on GOAL's left or right side in it's bump_rang
+
+// this will tell if P is on the top or the bottom of the GOAL and inside the bump_range
+P < GY0 && P >= GY0 - bump_range  ||  P > GY1 && P <= GY1 + bump_range
+// now need to find if P is both inside of GX0 to GX1, and at same time inside of GZ0 to GZ1
+P >= Y0 &&  P <= Y1   &&  P >= Z0 &&  P <= Z1
+// if all this comes back as true then
+// this will put P on top of the GOAL or under it bottom and in it's bump_rang
+
+// this will tell if P is in front of or behind the GOAL and inside the bump_range
+P < GZ0 && P >= GZ0 - bump_range  ||  P > GZ1 && P <= GZ1 + bump_range
+// now need to find if P is both inside of GX0 to GX1, and at same time inside of GY0 to GY1
+P >= GX0 &&  P <= GX1   &&  P >= GY0 &&  P <= GY1
+// if all this comes back as true then
+// this will put P in front of or behinid the GOAL and in it's bump_rang
+****/
+
+// if ICON is in GOAL then it can’t get bounced, possession is checked before this call
+  if (!get_baGamesPossessionState(0))
   {
-    if ((_LiaGame[i] < _LiaGoalP[i][0] && _LiaGame[i] >= _LiaGoalP[i][0] - nsGF::GOAL_BUMP_BACK_RANGE)
-      || (_LiaGame[i] > _LiaGoalP[i][1] && _LiaGame[i] <= _LiaGoalP[i][1] + nsGF::GOAL_BUMP_BACK_RANGE))
-      _LbGameBump = true;
-    else
+    if (!_LbGameBump) // this will check the left and right side of the GOAL
     {
-    _LbGameBump = false;
-    break;
+      if ((_LiaGame[0] < _LiaGoalP[0][0] && _LiaGame[0] >= _LiaGoalP[0][0] - nsGF::GOAL_BUMP_BACK_RANGE)
+        || (_LiaGame[0] > _LiaGoalP[0][1] && _LiaGame[0] <= _LiaGoalP[0][1] + nsGF::GOAL_BUMP_BACK_RANGE))
+        _LbGameBump = true;
+      else  _LbGameBump = false;
+      if (_LbGameBump == true)
+        if (_LiaGame[1] >= _LiaGoalP[1][0] && _LiaGame[1] <= _LiaGoalP[1][1])
+          _LbGameBump = true;
+        else  _LbGameBump = false;
+      if (_LbGameBump == true)
+        if (_LiaGame[2] >= _LiaGoalP[2][0] && _LiaGame[2] <= _LiaGoalP[2][1])
+          _LbGameBump = true;
+        else  _LbGameBump = false;
     }
-  }*/
- /* for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
+    if (!_LbGameBump)  // this will check the top and bottom of the GOAL 
+    {
+      if ((_LiaGame[1] < _LiaGoalP[1][0] && _LiaGame[1] >= _LiaGoalP[1][0] - nsGF::GOAL_BUMP_BACK_RANGE)
+        || (_LiaGame[1] > _LiaGoalP[1][1] && _LiaGame[1] <= _LiaGoalP[1][1] + nsGF::GOAL_BUMP_BACK_RANGE))
+        _LbGameBump = true;
+      else  _LbGameBump = false;
+      if (_LbGameBump == true)
+        if (_LiaGame[0] >= _LiaGoalP[0][0] && _LiaGame[0] <= _LiaGoalP[0][1])
+          _LbGameBump = true;
+        else  _LbGameBump = false;
+      if (_LbGameBump == true)
+        if (_LiaGame[2] >= _LiaGoalP[2][0] && _LiaGame[2] <= _LiaGoalP[2][1])
+          _LbGameBump = true;
+        else  _LbGameBump = false;
+    }
+    if (!_LbGameBump)  // this will check the front and back of the GOAL 
+    {
+      if ((_LiaGame[2] < _LiaGoalP[2][0] && _LiaGame[2] >= _LiaGoalP[2][0] - nsGF::GOAL_BUMP_BACK_RANGE)
+        || (_LiaGame[2] > _LiaGoalP[2][1] && _LiaGame[2] <= _LiaGoalP[2][1] + nsGF::GOAL_BUMP_BACK_RANGE))
+        _LbGameBump = true;
+      else  _LbGameBump = false;
+      if (_LbGameBump == true)
+        if (_LiaGame[0] >= _LiaGoalP[0][0] && _LiaGame[0] <= _LiaGoalP[0][1])
+          _LbGameBump = true;
+        else  _LbGameBump = false;
+      if (_LbGameBump == true)
+        if (_LiaGame[1] >= _LiaGoalP[1][0] && _LiaGame[1] <= _LiaGoalP[1][1])
+          _LbGameBump = true;
+        else  _LbGameBump = false;
+    }
+  }  // end test on GAME being bumped away......................................
+
+  // if ICON is in GOAL then it can’t get bounced, possession is checked before this call
+  if (!get_baPlayersPossessionState(0))
   {
-    if ((_LiaPlayer[i] < _LiaGoalP[i][0] && _LiaPlayer[i] >= _LiaGoalP[i][0] - nsGF::GOAL_BUMP_BACK_RANGE)
-      || (_LiaPlayer[i] > _LiaGoalP[i][1] && _LiaPlayer[i] <= _LiaGoalP[i][1] + nsGF::GOAL_BUMP_BACK_RANGE))   
+    if (!_LbPlayerBump) // this will check the left and right side of the GOAL
+    {
+    if ((_LiaPlayer[0] < _LiaGoalP[0][0] && _LiaPlayer[0] >= _LiaGoalP[0][0] - nsGF::GOAL_BUMP_BACK_RANGE)
+      || (_LiaPlayer[0] > _LiaGoalP[0][1] && _LiaPlayer[0] <= _LiaGoalP[0][1] + nsGF::GOAL_BUMP_BACK_RANGE))
       _LbPlayerBump = true;
-    else
+    else  _LbPlayerBump = false;
+    if (_LbPlayerBump == true)
+      if (_LiaPlayer[1] >= _LiaGoalP[1][0] && _LiaPlayer[1] <= _LiaGoalP[1][1])
+        _LbPlayerBump = true;
+      else  _LbPlayerBump = false;
+    if (_LbPlayerBump == true)
+      if (_LiaPlayer[2] >= _LiaGoalP[2][0] && _LiaPlayer[2] <= _LiaGoalP[2][1])
+        _LbPlayerBump = true;
+      else  _LbPlayerBump = false;
+     }
+    if (!_LbPlayerBump)  // this will check the top and bottom of the GOAL
     {
-      _LbPlayerBump = false;
-      break;
+      if ((_LiaPlayer[1] < _LiaGoalP[1][0] && _LiaPlayer[1] >= _LiaGoalP[1][0] - nsGF::GOAL_BUMP_BACK_RANGE)
+        || (_LiaPlayer[1] > _LiaGoalP[1][1] && _LiaPlayer[1] <= _LiaGoalP[1][1] + nsGF::GOAL_BUMP_BACK_RANGE))
+        _LbPlayerBump = true;
+      else  _LbPlayerBump = false;
+      if (_LbPlayerBump == true)
+        if (_LiaPlayer[0] >= _LiaGoalP[0][0] && _LiaPlayer[0] <= _LiaGoalP[0][1])
+          _LbPlayerBump = true;
+        else  _LbPlayerBump = false;
+      if (_LbPlayerBump == true)
+        if (_LiaPlayer[2] >= _LiaGoalP[2][0] && _LiaPlayer[2] <= _LiaGoalP[2][1])
+          _LbPlayerBump = true;
+        else  _LbPlayerBump = false;
     }
-  }*/
-
-
-  // the following code should test if an ICON is within the GOAL’s bump range
-  // if it is, the ICON will be bumped away
-  if ((_LiaGame[0] < _LiaGoalP[0][0] && _LiaGame[0] >= _LiaGoalP[0][0] - nsGF::GOAL_BUMP_BACK_RANGE)
-    || (_LiaGame[0] > _LiaGoalP[0][1] && _LiaGame[0] <= _LiaGoalP[0][1] + nsGF::GOAL_BUMP_BACK_RANGE))
-    _LbGameBump = true;
-  else  _LbGameBump = false;
-  if (_LbGameBump == true)
-    if (_LiaGame[1] >= _LiaGoalP[1][0] - nsGF::GOAL_BUMP_BACK_RANGE && _LiaGame[1] <= _LiaGoalP[1][1] + nsGF::GOAL_BUMP_BACK_RANGE)
-      _LbGameBump = true;
-    else  _LbGameBump = false;
-  if (_LbGameBump == true)
-    if (_LiaGame[2] >= _LiaGoalP[2][0] - nsGF::GOAL_BUMP_BACK_RANGE && _LiaGame[2] <= _LiaGoalP[2][0] + nsGF::GOAL_BUMP_BACK_RANGE)
-      _LbGameBump = true;
-    else  _LbGameBump = false;
-
-  if ((_LiaPlayer[0] < _LiaGoalP[0][0] && _LiaPlayer[0] >= _LiaGoalP[0][0] - nsGF::GOAL_BUMP_BACK_RANGE)
-    || (_LiaPlayer[0] > _LiaGoalP[0][1] && _LiaPlayer[0] <= _LiaGoalP[0][1] + nsGF::GOAL_BUMP_BACK_RANGE))
-    _LbPlayerBump = true;
-  else  _LbPlayerBump = false;
-   if(_LbPlayerBump==true)
-    if(_LiaPlayer[1] >= _LiaGoalP[1][0] - nsGF::GOAL_BUMP_BACK_RANGE && _LiaPlayer[1] <= _LiaGoalP[1][1] + nsGF::GOAL_BUMP_BACK_RANGE)
-     _LbPlayerBump = true;
-   else  _LbPlayerBump = false;
-   if (_LbPlayerBump == true)
-     if(_LiaPlayer[2] >= _LiaGoalP[2][0] - nsGF::GOAL_BUMP_BACK_RANGE && _LiaPlayer[2] <= _LiaGoalP[2][0] + nsGF::GOAL_BUMP_BACK_RANGE)
-       _LbPlayerBump = true;
-     else  _LbPlayerBump = false;
-
+    if (!_LbPlayerBump)   //  this will check the front and back of the GOAL
+    {
+      if ((_LiaPlayer[2] < _LiaGoalP[2][0] && _LiaPlayer[2] >= _LiaGoalP[2][0] - nsGF::GOAL_BUMP_BACK_RANGE)
+        || (_LiaPlayer[2] > _LiaGoalP[2][1] && _LiaPlayer[2] <= _LiaGoalP[2][1] + nsGF::GOAL_BUMP_BACK_RANGE))
+        _LbPlayerBump = true;
+      else  _LbPlayerBump = false;
+      if (_LbPlayerBump == true)
+        if (_LiaPlayer[0] >= _LiaGoalP[0][0] && _LiaPlayer[0] <= _LiaGoalP[0][1])
+          _LbPlayerBump = true;
+        else  _LbPlayerBump = false;
+      if (_LbPlayerBump == true)
+        if (_LiaPlayer[1] >= _LiaGoalP[1][0] && _LiaPlayer[1] <= _LiaGoalP[1][1])
+          _LbPlayerBump = true;
+        else  _LbPlayerBump = false;
+    }
+  }// end test on PLAYER getting bumpted away...............................................................
 
   // if _LbPlayerBump  and or _LbGameBump is true here then that ICON is to be bumped away from the GOAL
   if (_LbGameBump)
@@ -241,8 +324,9 @@ void GameSpace::testIfAnyIconBumped()
       if (_LiaGoalP[_LiAxis][_LiDirection] + _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE < get_iaGameSpaceDimentions(_LiAxis) )
         set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1] + _LiBumpCardValue + nsGF::GOAL_BUMP_BACK_RANGE);
       else  set_iaGamesCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE);
+      testCorrectKickOutPosition("GAME");  // Test and or correct the new bumped to position, if bumped to position is out of game space then clip that position to keep the ICON in bounds 
   }// end if(_LbGameBump)
-  testCorrectKickOutPosition("GAME");  // Test and or correct the new bumped to position, if bumped to position is out of game space then clip that position to keep the ICON in bounds 
+
     // same code as above but setup to bump PLAYER not GAME,  both can be bumped away from GOAL on same hand
   if (_LbPlayerBump)
   {
@@ -266,8 +350,9 @@ void GameSpace::testIfAnyIconBumped()
       if (_LiaGoalP[_LiAxis][_LiDirection] + _LiBumpCardValue + nsGF::GOAL_BUMP_BACK_RANGE < get_iaGameSpaceDimentions(_LiAxis) )
         set_iaPlayersCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][1] + _LiBumpCardValue + nsGF::GOAL_BUMP_BACK_RANGE);
       else  set_iaPlayersCurrentPosition(_LiAxis, _LiaGoalP[_LiAxis][0] - _LiBumpCardValue - nsGF::GOAL_BUMP_BACK_RANGE);
+      testCorrectKickOutPosition("PLAYER");  // Test and or correct the new bumped to position, if bumped to position is out of game space then clip that position to keep the ICON in bounds  
   }// end if(_LbPlayerBump)
-  testCorrectKickOutPosition("PLAYER");  // Test and or correct the new bumped to position, if bumped to position is out of game space then clip that position to keep the ICON in bounds  
+
 
 }
 
