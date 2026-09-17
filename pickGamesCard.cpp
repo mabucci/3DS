@@ -35,13 +35,15 @@ void GameFunctions::pickGamesCard()
 
      // Fine distance to GOAL for both PLAYER and GAME.
      // If distance is negitive then P or G is above the upper goal range
-     // If PossessionState[0] == TRUE, then PLAYER or GAME is in the goal range and their delta should be set to zero
+     // If *Possession[0] == TRUE, then PLAYER or GAME is in the goal range and their delta should be set to zero
 
       // The GAME needs to know both its’ and the PLAYER’s Delta from the GOAL. 
       // The difference in ‘game space units’ from the PLAYER’s current position and the GOAL closes boundary.   
       // X, Y, and Z values.   Negative means PLAYER is above GOAL, Positive means PLAYER is below GOAL. 
       // Total delta is alway positive.
       // PLAYER threw down first, GAME knows PLAYER’s;  card value,  current position, delta values,  and GOAL possession states.    
+
+  _iPlayersTotalDeltaFromGoalsPerimeter = _iGamesTotalDeltaFromGoalsPerimeter = 0;
 
 /***********************************************************************************************************************************
 1. find the GOAL perimeter axes that are the closes to GAME’s current position
@@ -64,21 +66,68 @@ G3, G5, G6, and G8 are in a single axis confine
 G4 is in a double axis confine
 ************************************************************************************************************************************/
 
-  
-  _iPlayersTotalDeltaFromGoalsPerimeter = _iGamesTotalDeltaFromGoalsPerimeter = 0;
-
+  // get PLAYER’s range and barring 
   for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
   {
     if (_iaPlayersCurrentPosition[i] <= _iaGoalsCurrentPerimeter[i][0])
       _iaPlayersXYZDeltaFromGoalsPerimeter[i] = _iaGoalsCurrentPerimeter[i][0] - _iaPlayersCurrentPosition[i];
     else _iaPlayersXYZDeltaFromGoalsPerimeter[i] = _iaGoalsCurrentPerimeter[i][1] - _iaPlayersCurrentPosition[i];
     _iPlayersTotalDeltaFromGoalsPerimeter += abs(_iaPlayersXYZDeltaFromGoalsPerimeter[i]);
+  }
 
+
+  // this code was in the above for loop, it just sent the GAME heading to the closes corner of the GOAL
+  /***************************************************************************************************************************
     if (_iaGamesCurrentPosition[i] <= _iaGoalsCurrentPerimeter[i][0])
       _iaGamesXYZDeltaFromGoalsPerimeter[i] = _iaGoalsCurrentPerimeter[i][0] - _iaGamesCurrentPosition[i];
     else _iaGamesXYZDeltaFromGoalsPerimeter[i] = _iaGoalsCurrentPerimeter[i][1] - _iaGamesCurrentPosition[i];
     _iGamesTotalDeltaFromGoalsPerimeter += abs(_iaGamesXYZDeltaFromGoalsPerimeter[i]);
   }
+  *****************************************************************************************************************************/
+
+  // by assessing the GAME’s position in relationship to the GOAL's position the shortest route between them can be determined   
+  // the route will be in the form of a unit vector %  that will be used in the movement strategies to be worked out below 
+  /******
+   G0, G2, G3, G5, G6, and G8 are out of any axis confine
+  if ((Game[0] < Goal[0][0] && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])) ||
+    (Game[0] > Goal[0][1] && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])))
+  {
+    std::cout << '\n' << "Out of any axis confine.";
+  }
+  // G3, G5, G6, and G8 are in a single axis confine
+  else if (((Game[0] > Goal[0][0] && Game[0] < Goal[0][1]) && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])) ||
+    (Game[0]<Goal[0][0] || Game[0]>Goal[0][1] && Game[1] > Goal[1][0] && Game[1] < Goal[1][1]))
+  {
+    std::cout << '\n' << "In single asix confine.";
+  }
+  //  G4 is in a double axis confine
+  else if ((Game[0] > Goal[0][0] && Game[0]<Goal[0][1] && Game[1]>Goal[1][0] && Game[1] < Goal[1][1]))
+  {
+    std::cout << '\n' << "In double axis confine.";
+  }
+  ******/
+
+  //  GAME is out of any axis confine
+  if ((_iaGamesCurrentPosition[0] < _iaGoalsCurrentPerimeter[0][0]) && (_iaGamesCurrentPosition[1] < _iaGoalsCurrentPerimeter[1][0]) ||
+    (_iaGamesCurrentPosition[1] > _iaGoalsCurrentPerimeter[1][1]) || (_iaGamesCurrentPosition[1] > _iaGoalsCurrentPerimeter[1][1]))
+  {
+    int i{ -1 };
+  }
+  // GAME is in single asix confine.
+  else if (((_iaGamesCurrentPosition[0]>_iaGoalsCurrentPerimeter[0][0] && _iaGamesCurrentPosition[0]<_iaGoalsCurrentPerimeter[0][1]) &&
+        (_iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][0] || _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][1])) ||
+         (_iaGamesLastPosition[0]<_iaGoalsCurrentPerimeter[0][0] || _iaGamesCurrentPosition[0]>_iaGoalsCurrentPerimeter[0][1]      &&
+         _iaGamesLastPosition[1]>_iaGoalsCurrentPerimeter[1][0] && _iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][1]))
+  {
+    int i{ -1 };
+  }
+  // GAME is in double axis confine.
+  else if ( (_iaGamesCurrentPosition[0]>_iaGoalsCurrentPerimeter[0][0]) && (_iaGamesCurrentPosition[0]<_iaGoalsCurrentPerimeter[0][1]) &&
+            (_iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][0]) && (_iaGamesCurrentPosition[1] < _iaGoalsCurrentPerimeter[1][1]) )
+  {
+    int i{ -1 };
+  }
+
 
   // There is always the possibility that the GAME will NOT have a card with a low enough movement value that once the GAME is in the 
   // GOAL it can not stay in the GOAL as it tries to obtain second stage possession.
@@ -201,6 +250,28 @@ If loser, they are ejected in a random direction from GOAL's perimeter a distanc
 
   }// end of 'if (_bGoalInContention)----------------------------------------------------------------------------------------------------------------
   //-------------------------------------------------------------------------------------------------------------------------------------------------
+
+/***********************************************************************************************************************************
+1. find the GOAL perimeter axes that are the closes to GAME’s current position
+2. if GAME is outside the confines of any axis sets then head for the closes corner of the GOAL’s perimeter
+3. if inside one axis confine;  qed  GAME < X0, Y0 < GAME < Y1, and GAME > Z1
+move parallel to the Y0 or Y1 axis while moving down to Z1 value
+4. if inside two axes confines (a double); qed  GAME < X0, Y0 < GAME < Y1, and Z0 < GAME < z1
+only move parallel to the Y0 or Y1 axis   this will make your path a right angle to one of the GOAL’s sides
+        	|	                   |
+      G0	|       G1           |      G2
+----------|--------------------|--------------- Y0
+        	|		                 |
+     G3   |         G4         |      G5
+        	|		                 |
+----------|--------------------|--------------- Y1
+      G6	|          G7        |       G8
+           X0                   X1
+G0, G2, G3, G5, G6, and G8 are out of any axis confine
+G3, G5, G6, and G8 are in a single axis confine
+G4 is in a double axis confine
+************************************************************************************************************************************/
+
 
 // If the GOAL’s total path length, (the maximum movement that can be made while staying in the GOAL’s perimeter) is less than the GAME’s 
 // lowest card value stay close to the GOAL but out side its bump range.  GAME can move in and out of the GOAL as needed to keep this distance.

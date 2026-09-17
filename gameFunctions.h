@@ -16,7 +16,7 @@ private:
   short _iaGamesBumpBackCard[2]{ {-1}, {-1} }; // Use to print out the card used to calculate the GAME’s bump back distance 
   int _iaGamesCards[nsGF::MAX_NUMBER_OF_GAME_CARDS][2]{ { 0 },{ 0 } }; // Holds Game's dealt cards 
   int _iGamesCardsTotalValue{ 0 };
-  int _iaGamesCurrentPosition[3]{ 55, 25, 55 };  // hold's Game's curent position   
+  int _iaGamesCurrentPosition[3]{ 50,30,0 };// { 55, 25, 55 };  // hold's Game's curent position   
   bool _bGameKickedOut{ false };  // was the GAME kicked out of the GOAL 
   short _iaGamesLastPosition[3]{ {0}, {0}, {0} };
   int _iaGamesLongestXYZPath[3]{ 0, 0, 0 };   // OODA loop GAME need to find it longest path that it can move in the GOAL from its present position
