@@ -108,9 +108,11 @@ G4 is in a double axis confine
   ******/
 
   //  GAME is out of any axis confine
-  if ((_iaGamesCurrentPosition[0] < _iaGoalsCurrentPerimeter[0][0]) && (_iaGamesCurrentPosition[1] < _iaGoalsCurrentPerimeter[1][0]) ||
-    (_iaGamesCurrentPosition[1] > _iaGoalsCurrentPerimeter[1][1]) || (_iaGamesCurrentPosition[1] > _iaGoalsCurrentPerimeter[1][1]))
-  {
+ if ((_iaGamesCurrentPosition[0] < _iaGoalsCurrentPerimeter[0][0] && (_iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][0] || 
+   _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][1])) ||
+   (_iaGamesCurrentPosition[0] > _iaGoalsCurrentPerimeter[0][1] && (_iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][0] || 
+     _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][1])))
+ {
     int i{ -1 };
   }
   // GAME is in single asix confine.
