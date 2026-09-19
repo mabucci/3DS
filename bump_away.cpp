@@ -30,7 +30,7 @@ only move parallel to the Y0 or Y1 axis   this will make your path a right angle
           |	           |
       G0	|       G1           |      G2
 ----------|--------------------|--------------- Y0
-          |		 |
+          |		 | 
      G3   |         G4         |      G5
           |		 |
 ----------|--------------------|--------------- Y1
