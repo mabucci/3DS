@@ -115,6 +115,19 @@ G4 is in a double axis confine
      _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][1])))
  {
     int i{ -1 };
+    if(_iaGamesCurrentPosition[2]<_iaGoalsCurrentPerimeter[2][0])
+      {
+          std::cout<<'\n'<<"<Goal[2][0]";
+      }
+      else if(_iaGamesCurrentPosition[2]>_iaGoalsCurrentPerimeter[2][1])
+       {
+          std::cout<<'\n'<<">Goal[2][1]"; 
+       }
+       else 
+       {
+           std::cout<<'\n'<<"[Goal[2][0] Goal[2][1]";
+       }
+
   }
   // GAME is in single asix confine
   // G3,  G1, G5, and G7 are in a single axis confine
@@ -124,6 +137,20 @@ G4 is in a double axis confine
          _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][0] && _iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][1]))
   {
     int i{ -1 };
+     if(_iaGamesCurrentPosition[2]<_iaGoalsCurrentPerimeter[2][0])
+      {
+          std::cout<<'\n'<<"<Goal[2][0]";
+      }
+      else if(_iaGamesCurrentPosition[2]>_iaGoalsCurrentPerimeter[2][1])
+       {
+          std::cout<<'\n'<<">Goal[2][1]"; 
+       }
+       else 
+       {
+           std::cout<<'\n'<<"[Goal[2][0] Goal[2][1]";
+       }
+    }
+
   }
   // GAME is in double axis confine
   // G4 is in a double axis confine
@@ -131,6 +158,19 @@ G4 is in a double axis confine
             _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][0] && (_iaGamesCurrentPosition[1] < _iaGoalsCurrentPerimeter[1][1] )
   {
     int i{ -1 };
+     if(Game[2]<Goal[2][0])
+      {
+          std::cout<<'\n'<<"<Goal[2][0]";
+      }
+      else if(_iaGamesCurrentPosition[2]>Goal[2][1])
+       {
+          std::cout<<'\n'<<">Goal[2][1]"; 
+       }
+       else 
+       {
+           std::cout<<'\n'<<"[Goal[2][0] Goal[2][1]";
+       }
+
   }
 
 
