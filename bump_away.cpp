@@ -27,7 +27,7 @@ P >= GX0 &&  P <= GX1   &&  P >= GY0 &&  P <= GY1
 move parallel to the Y0 or Y1 axis while moving down to Z1 value
 4. if inside two axes confines (a double); qed  GAME < X0, Y0 < GAME < Y1, and Z0 < GAME < z1
 only move parallel to the Y0 or Y1 axis   this will make your path a right angle to one of the GOAL’s sides
-          |	           |
+          |	           | 
       G0	|       G1           |      G2
 ----------|--------------------|--------------- Y0
           |		 | 
