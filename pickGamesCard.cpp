@@ -61,8 +61,8 @@ only move parallel to the Y0 or Y1 axis   this will make your path a right angle
 ----------|--------------------|--------------- Y1
       G6	|          G7        |       G8
            X0                   X1
-G0, G2, G3, G5, G6, and G8 are out of any axis confine
-G3, G5, G6, and G8 are in a single axis confine
+G0, G2, G6, and G8 are out of any axis confine
+G3,  G1, G5, and G7 are in a single axis confine
 G4 is in a double axis confine
 ************************************************************************************************************************************/
 
@@ -88,7 +88,7 @@ G4 is in a double axis confine
   // by assessing the GAME’s position in relationship to the GOAL's position the shortest route between them can be determined   
   // the route will be in the form of a unit vector %  that will be used in the movement strategies to be worked out below 
   /******
-   G0, G2, G3, G5, G6, and G8 are out of any axis confine
+   G0, G2, G6, and G8 are out of any axis confine
   if ((Game[0] < Goal[0][0] && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])) ||
     (Game[0] > Goal[0][1] && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])))
   {
@@ -108,6 +108,7 @@ G4 is in a double axis confine
   ******/
 
   //  GAME is out of any axis confine
+  // G0, G2, G6, and G8 are out of any axis confine
  if ((_iaGamesCurrentPosition[0] < _iaGoalsCurrentPerimeter[0][0] && (_iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][0] || 
    _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][1])) ||
    (_iaGamesCurrentPosition[0] > _iaGoalsCurrentPerimeter[0][1] && (_iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][0] || 
@@ -115,7 +116,8 @@ G4 is in a double axis confine
  {
     int i{ -1 };
   }
-  // GAME is in single asix confine.
+  // GAME is in single asix confine
+  // G3,  G1, G5, and G7 are in a single axis confine
   else if (((_iaGamesCurrentPosition[0]>_iaGoalsCurrentPerimeter[0][0] && _iaGamesCurrentPosition[0]<_iaGoalsCurrentPerimeter[0][1]) &&
         (_iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][0] || _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][1])) ||
          (_iaGamesLastPosition[0]<_iaGoalsCurrentPerimeter[0][0] || _iaGamesCurrentPosition[0]>_iaGoalsCurrentPerimeter[0][1]      &&
@@ -123,9 +125,10 @@ G4 is in a double axis confine
   {
     int i{ -1 };
   }
-  // GAME is in double axis confine.
-  else if ( (_iaGamesCurrentPosition[0]>_iaGoalsCurrentPerimeter[0][0]) && (_iaGamesCurrentPosition[0]<_iaGoalsCurrentPerimeter[0][1]) &&
-            (_iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][0]) && (_iaGamesCurrentPosition[1] < _iaGoalsCurrentPerimeter[1][1]) )
+  // GAME is in double axis confine
+  // G4 is in a double axis confine
+  else if ( _iaGamesCurrentPosition[0]>_iaGoalsCurrentPerimeter[0][0] && _iaGamesCurrentPosition[0]<_iaGoalsCurrentPerimeter[0][1] &&
+            _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][0] && (_iaGamesCurrentPosition[1] < _iaGoalsCurrentPerimeter[1][1] )
   {
     int i{ -1 };
   }
