@@ -120,8 +120,8 @@ G4 is in a double axis confine
   // G3,  G1, G5, and G7 are in a single axis confine
   else if (((_iaGamesCurrentPosition[0]>_iaGoalsCurrentPerimeter[0][0] && _iaGamesCurrentPosition[0]<_iaGoalsCurrentPerimeter[0][1]) &&
         (_iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][0] || _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][1])) ||
-         (_iaGamesLastPosition[0]<_iaGoalsCurrentPerimeter[0][0] || _iaGamesCurrentPosition[0]>_iaGoalsCurrentPerimeter[0][1]      &&
-         _iaGamesLastPosition[1]>_iaGoalsCurrentPerimeter[1][0] && _iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][1]))
+         (_iaGamesCurrentPosition[0]<_iaGoalsCurrentPerimeter[0][0] || _iaGamesCurrentPosition[0]>_iaGoalsCurrentPerimeter[0][1]      &&
+         _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][0] && _iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][1]))
   {
     int i{ -1 };
   }
