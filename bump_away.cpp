@@ -47,9 +47,7 @@ int main()
 {
   int Goal[3][2]{ {10,20}, {30, 40},{50, 60} };
   int Game[3]{ 0 , 0, 0 };
-
-
-
+          
   while (1)
   { 
     std::cout << '\n' << "Enter Game's X: ";
@@ -59,25 +57,59 @@ int main()
     std::cout << '\n' << "Enter Game's Z: ";
     std::cin >> Game[2];
     // G0, G2, G3, G5, G6, and G8 are out of any axis confine
-    if ((Game[0] < Goal[0][0] && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])) ||
+
+     if ((Game[0] < Goal[0][0] && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])) ||
       (Game[0] > Goal[0][1] && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])))
     {
       std::cout << '\n' << "Out of any axis confine.";
+      if(Game[2]<Goal[2][0])
+      {
+          std::cout<<'\n'<<"<Goal[2][0]";
+      }
+      else if(Game[2]>Goal[2][1])
+       {
+          std::cout<<'\n'<<">Goal[2][1]"; 
+       }
+       else 
+       {
+           std::cout<<'\n'<<"[Goal[2][0] Goal[2][1]";
+       }
     }
     // G3, G5, G6, and G8 are in a single axis confine
     else if (((Game[0] > Goal[0][0] && Game[0] < Goal[0][1]) && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])) ||
       (Game[0]<Goal[0][0] || Game[0]>Goal[0][1] && Game[1] > Goal[1][0] && Game[1] < Goal[1][1]))
     {
       std::cout << '\n' << "In single asix confine.";
+       if(Game[2]<Goal[2][0])
+      {
+          std::cout<<'\n'<<"<Goal[2][0]";
+      }
+      else if(Game[2]>Goal[2][1])
+       {
+          std::cout<<'\n'<<">Goal[2][1]"; 
+       }
+       else 
+       {
+           std::cout<<'\n'<<"[Goal[2][0] Goal[2][1]";
+       }
     }
     //  G4 is in a double axis confine
     else if ((Game[0] > Goal[0][0] && Game[0]<Goal[0][1] && Game[1]>Goal[1][0] && Game[1] < Goal[1][1]))
     {
       std::cout << '\n' << "In double axis confine.";
+       if(Game[2]<Goal[2][0])
+      {
+          std::cout<<'\n'<<"<Goal[2][0]";
+      }
+      else if(Game[2]>Goal[2][1])
+       {
+          std::cout<<'\n'<<">Goal[2][1]"; 
+       }
+       else 
+       {
+           std::cout<<'\n'<<"[Goal[2][0] Goal[2][1]";
+       }
     }
   }
-
-                 
   return 0;
 }
-  
