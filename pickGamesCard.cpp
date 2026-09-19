@@ -115,17 +115,17 @@ G4 is in a double axis confine
      _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][1])))
  {
     int i{ -1 };
-    if(_iaGamesCurrentPosition[2]<_iaGoalsCurrentPerimeter[2][0])
+    if(_iaGamesCurrentPosition[2]<_iaGoalsCurrentPerimeter[2][0])  // GAME is below the GOAL
       {
-          std::cout<<'\n'<<"<Goal[2][0]";
+          int j{-1};
       }
-      else if(_iaGamesCurrentPosition[2]>_iaGoalsCurrentPerimeter[2][1])
+      else if(_iaGamesCurrentPosition[2]>_iaGoalsCurrentPerimeter[2][1])  // GAME is above the GOAL
        {
-          std::cout<<'\n'<<">Goal[2][1]"; 
+         int j{-1};
        }
-       else 
+       else // GAME is at same hight as GOAL 
        {
-           std::cout<<'\n'<<"[Goal[2][0] Goal[2][1]";
+          int j{-1};
        }
 
   }
@@ -137,17 +137,17 @@ G4 is in a double axis confine
          _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][0] && _iaGamesCurrentPosition[1]<_iaGoalsCurrentPerimeter[1][1]))
   {
     int i{ -1 };
-     if(_iaGamesCurrentPosition[2]<_iaGoalsCurrentPerimeter[2][0])
+     if(_iaGamesCurrentPosition[2]<_iaGoalsCurrentPerimeter[2][0])   // GAME is below the GOAL
       {
-          std::cout<<'\n'<<"<Goal[2][0]";
+          int j{-1};
       }
-      else if(_iaGamesCurrentPosition[2]>_iaGoalsCurrentPerimeter[2][1])
+      else if(_iaGamesCurrentPosition[2]>_iaGoalsCurrentPerimeter[2][1])   // GAME is above the GOAL
        {
-          std::cout<<'\n'<<">Goal[2][1]"; 
+          int j{-1}; 
        }
-       else 
+       else  // GAME is at same hight as GOAL 
        {
-           std::cout<<'\n'<<"[Goal[2][0] Goal[2][1]";
+           int j{-1};
        }
     }
 
@@ -158,17 +158,17 @@ G4 is in a double axis confine
             _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][0] && (_iaGamesCurrentPosition[1] < _iaGoalsCurrentPerimeter[1][1] )
   {
     int i{ -1 };
-     if(Game[2]<Goal[2][0])
+     if(Game[2]<Goal[2][0]) // GAME is below the GOAL
       {
-          std::cout<<'\n'<<"<Goal[2][0]";
+       int j{-1};
       }
-      else if(_iaGamesCurrentPosition[2]>Goal[2][1])
+      else if(_iaGamesCurrentPosition[2]>Goal[2][1])   // GAME is above the GOAL
        {
-          std::cout<<'\n'<<">Goal[2][1]"; 
+        int j{-1};
        }
-       else 
+       else   // GAME is at same hight as GOAL 
        {
-           std::cout<<'\n'<<"[Goal[2][0] Goal[2][1]";
+        int j{-1};
        }
 
   }
