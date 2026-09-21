@@ -59,22 +59,20 @@ G4 is in a double axis confine
 #include <iostream>
 #include <iomanip>
 #include <limits>
-#include "lib/findSector.cpp"
-void findSector(int, int);
 
 int main()
 {
-  int Goal[3][2]{ {50,60}, {30, 40},{50, 60} };
+  int Goal[3][2]{ {5,10}, {5, 10},{5, 10} };
   int Game[3]{ 10 , 20, 10 };
-  int DeltaXYZ[3]{40, 20, 90};
-  int DeltaTotal{0};
-  double Percents[3]{0.0, 0.0, 0.0};
+  int DeltaXYZ[3]{ 40, 20, 90 };
+  int DeltaTotal{ 0 };
+  double Percents[3]{ 0.0, 0.0, 0.0 };
 
- 
 
- while (1)
-  { 
-      /*************/
+
+  while (1)
+  {
+    /*************/
     std::cout << '\n' << "Enter Game's X: ";
     std::cin >> Game[0];
     std::cout << '\n' << "Enter Game's Y: ";
@@ -85,79 +83,86 @@ int main()
     // G0, G2, G6, and G8 are out of any axis confine  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     if ((Game[0] < Goal[0][0] && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])) ||
       (Game[0] > Goal[0][1] && (Game[1]<Goal[1][0] || Game[1]>Goal[1][1])))
+    {
+      std::cout << "\nOut of any axis confine";
+      if (Goal[0][0] - Game[0] > 0 && Goal[1][0] - Game[1] > 0) // GAME is in G0
       {
-      std::cout<<"\nOut of any axis confine";
-      if(Goal[0][0] - Game[0] > 0  &&  Goal[1][0] - Game[1] > 0 ) // GAME is in G0
-      {
-          std::cout<<"\nIn G0";
-          if(Goal[2][0]>Game[2]) std::cout<<"\n< Goal[2][0]";
-           else if(Goal[2][0]>=Game[2] && Game[2]<=Goal[2][1]) std::cout<<"\n [Goal[2][0] Goal[2][1]]";
-           else if(Goal[2][1]<Game[2]) std::cout<<"\n > Goal[2][1]";
-      }else if(Goal[0][1] - Game[0] < 0  &&  Goal[1][1] - Game[1] > 0 ) // GAME is in G2
-      {  
-          std::cout<<"\nIn G2";
-          if(Goal[2][0]>Game[2]) std::cout<<"\n< Goal[2][0]";
-           else if(Goal[2][0]>=Game[2] && Game[2]<=Goal[2][1]) std::cout<<"\n [Goal[2][0] Goal[2][1]]";
-           else if(Goal[2][1]<Game[2]) std::cout<<"\n > Goal[2][1]";
-      }else if(Goal[0][0] - Game[0] > 0  &&  Goal[1][1] - Game[1] < 0 ) // GAME is in G6
-      {
-          std::cout<<"\nIn G6";
-          if(Goal[2][0]>Game[2]) std::cout<<"\n< Goal[2][0]";
-           else if(Goal[2][0]>=Game[2] && Game[2]<=Goal[2][1]) std::cout<<"\n [Goal[2][0] Goal[2][1]]";
-           else if(Goal[2][1]<Game[2]) std::cout<<"\n > Goal[2][1]";
-      }else if(Goal[0][1] - Game[0] < 0  &&  Goal[1][1] - Game[1] < 0 ) // GAME is in G8
-      {
-        std::cout<<"\nIn G8";  
-        if(Goal[2][0]>Game[2]) std::cout<<"\n< Goal[2][0]";
-           else if(Goal[2][0]>=Game[2] && Game[2]<=Goal[2][1]) std::cout<<"\n [Goal[2][0] Goal[2][1]]";
-           else if(Goal[2][1]<Game[2]) std::cout<<"\n > Goal[2][1]";
+        std::cout << "\nIn G0";
+        if (Goal[2][0] > Game[2]) std::cout << "\n<- Goal[2][0]";
+        else if (Goal[2][0] <= Game[2] && Game[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (Goal[2][1] < Game[2]) std::cout << "\n-> Goal[2][1] ";
       }
-      } // end if on << "Out of any axis confine." -----------------------------------------------------------------
+      else if (Goal[0][1] - Game[0] < 0 && Goal[1][1] - Game[1] > 0) // GAME is in G2
+      {
+        std::cout << "\nIn G2";
+        if (Goal[2][0] > Game[2]) std::cout << "\n<- Goal[2][0]";
+        else if (Goal[2][0] <= Game[2] && Game[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (Goal[2][1] < Game[2]) std::cout << "\n-> Goal[2][1]";
+      }
+      else if (Goal[0][0] - Game[0] > 0 && Goal[1][1] - Game[1] < 0) // GAME is in G6
+      {
+        std::cout << "\nIn G6";
+        if (Goal[2][0] > Game[2]) std::cout << "\n<- Goal[2][0]";
+        else if (Goal[2][0] <= Game[2] && Game[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (Goal[2][1] < Game[2]) std::cout << "\n-> Goal[2][1]";
+      }
+      else if (Goal[0][1] - Game[0] < 0 && Goal[1][1] - Game[1] < 0) // GAME is in G8
+      {
+        std::cout << "\nIn G8";
+        if (Goal[2][0] > Game[2]) std::cout << "\n<- Goal[2][0]";
+        else if (Goal[2][0] <= Game[2] && Game[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (Goal[2][1] < Game[2]) std::cout << "\n-> Goal[2][1]";
+      }
+    } // end if on << "Out of any axis confine." -----------------------------------------------------------------
 
-    // G1, G3, G5, and G7 are in a single axis confine +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- if (((Game[0] >= Goal[0][0] && Game[0] <= Goal[0][1]) && (Game[1]<=Goal[1][0] || Game[1]>=Goal[1][1])) ||
-      (Game[0]<=Goal[0][0] || Game[0]>=Goal[0][1] && Game[1] >= Goal[1][0] && Game[1] <= Goal[1][1]))
+  // G1, G3, G5, and G7 are in a single axis confine +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    if ((Game[0] <= Goal[0][0] && Game[1] >= Goal[1][0] && Game[1] <= Goal[1][1]) || (Game[0] >= Goal[0][1] &&
+      Game[1] >= Goal[1][0] && Game[1] <= Goal[1][1]) || (Game[0] >= Goal[0][0] && Game[0] <= Goal[0][1] &&
+        Game[1] <= Goal[1][0]) || (Game[0] >= Goal[0][0] && Game[0] <= Goal[0][1] && Game[1] >= Goal[1][1]))
     {
       std::cout << '\n' << "In single asix confine.";
-      if(Game[0] >= Goal[0][0] && Game[0] <= Goal[0][1] && Game[1]<=Goal[1][0]) // GAME is in G1
+      if (Game[0] >= Goal[0][0] && Game[0] <= Goal[0][1] && Game[1] <= Goal[1][0]) // GAME is in G1
       {
-        std::cout<<"\nIn G1";
-         if(Goal[2][0]>Game[2]) std::cout<<"\n< Goal[2][0]";
-           else if(Goal[2][0]>=Game[2] && Game[2]<=Goal[2][1]) std::cout<<"\n [Goal[2][0] Goal[2][1]]";
-           else if(Goal[2][1]<Game[2]) std::cout<<"\n > Goal[2][1]";
-      }else  if(Game[0] <= Goal[0][0] && Game[1] >= Goal[1][0] && Game[1]<=Goal[1][1]) // GAME is in G3
+        std::cout << "\nIn G1";
+        if (Goal[2][0] > Game[2]) std::cout << "\n<- Goal[2][0]";
+        else if (Goal[2][0] <= Game[2] && Game[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (Goal[2][1] < Game[2]) std::cout << "\n-> Goal[2][1]";
+      }
+      else  if (Game[0] <= Goal[0][0] && Game[1] >= Goal[1][0] && Game[1] <= Goal[1][1]) // GAME is in G3
       {
-          std::cout<<"\nIn G3";
-           if(Goal[2][0]>Game[2]) std::cout<<"\n< Goal[2][0]";
-           else if(Goal[2][0]>=Game[2] && Game[2]<=Goal[2][1]) std::cout<<"\n [Goal[2][0] Goal[2][1]]";
-           else if(Goal[2][1]<Game[2]) std::cout<<"\n > Goal[2][1]";
-      }else if(Game[0] >= Goal[0][1] && Game[1] >= Goal[1][0] && Game[1]<=Goal[1][1]) // GAME is in G5
+        std::cout << "\nIn G3";
+        if (Goal[2][0] > Game[2]) std::cout << "\n<- Goal[2][0]";
+        else if (Goal[2][0] <= Game[2] && Game[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (Goal[2][1] < Game[2]) std::cout << "\n-> Goal[2][1]";
+      }
+      else if (Game[0] >= Goal[0][1] && Game[1] >= Goal[1][0] && Game[1] <= Goal[1][1]) // GAME is in G5
       {
-         std::cout<<"\nIn G5";
-           if(Goal[2][0]>Game[2]) std::cout<<"\n< Goal[2][0]";
-           else if(Goal[2][0]>=Game[2] && Game[2]<=Goal[2][1]) std::cout<<"\n [Goal[2][0] Goal[2][1]]";
-           else if(Goal[2][1]<Game[2]) std::cout<<"\n > Goal[2][1]";  
-      }else  if(Game[0] >= Goal[0][0] && Game[0] <= Goal[0][1] && Game[1]>=Goal[1][1]) // GAME is in G7 
+        std::cout << "\nIn G5";
+        if (Goal[2][0] > Game[2]) std::cout << "\n<- Goal[2][0]";
+        else if (Goal[2][0] <= Game[2] && Game[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (Goal[2][1] < Game[2]) std::cout << "\n-> Goal[2][1]";
+      }
+      else  if (Game[0] >= Goal[0][0] && Game[0] <= Goal[0][1] && Game[1] >= Goal[1][1]) // GAME is in G7 
       {
-        std::cout<<"\nIn G7";
-           if(Goal[2][0]>Game[2]) std::cout<<"\n< Goal[2][0]";
-           else if(Goal[2][0]>=Game[2] && Game[2]<=Goal[2][1]) std::cout<<"\n [Goal[2][0] Goal[2][1]]";
-           else if(Goal[2][1]<Game[2]) std::cout<<"\n > Goal[2][1]";    
+        std::cout << "\nIn G7";
+        if (Goal[2][0] > Game[2]) std::cout << "\n<- Goal[2][0]";
+        else if (Goal[2][0] <= Game[2] && Game[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (Goal[2][1] < Game[2]) std::cout << "\n-> Goal[2][1]";
       }
     }  // end if on "In single asix confine." -------------------------------------------------------------------------
-    
+
     //  G4 is in a double axis confine ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- if ((Game[0] >= Goal[0][0] && Game[0] <= Goal[0][1] && Game[1]>= Goal[1][0] && Game[1] <= Goal[1][1]))
+    if ((Game[0] >= Goal[0][0] && Game[0] <= Goal[0][1] && Game[1] >= Goal[1][0] && Game[1] <= Goal[1][1]))
     {
       std::cout << '\n' << "In double axis confine.";
-       std::cout<<"\nIn G4";
-           if(Goal[2][0]>Game[2]) std::cout<<"\n< Goal[2][0]";
-           else if(Goal[2][0]>=Game[2] && Game[2]<=Goal[2][1]) std::cout<<"\n [Goal[2][0] Goal[2][1]]";
-           else if(Goal[2][1]<Game[2]) std::cout<<"\n > Goal[2][1]";    
-     
+      std::cout << "\nIn G4";
+      if (Goal[2][0] > Game[2]) std::cout << "\n<- Goal[2][0]";
+      else if (Goal[2][0] <= Game[2] && Game[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+      else if (Goal[2][1] < Game[2]) std::cout << "\n-> Goal[2][1]";
+
     }  // end f on  "In double axis confine." -------------------------------------------------------------------------- 
   }  // end of while(1)
 
-                 
+
   return 0;
 }
