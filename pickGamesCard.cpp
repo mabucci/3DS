@@ -117,33 +117,33 @@ G4 is in a double axis confine
     (_iaGamesCurrentPosition[1]< _iaGoalsCurrentPerimeter[1][0] || _iaGamesCurrentPosition[1]>_iaGoalsCurrentPerimeter[1][1])))
   {
   std::cout << "\nOut of any axis confine";
-      if (Goal[0][0] - _iaGamesCurrentPosition[0] > 0 && Goal[1][0] - _iaGamesCurrentPosition[1] > 0) // GAME is in G0
+      if (_iaGoalsCurrentPerimeter[0][0] - _iaGamesCurrentPosition[0] > 0 && _iaGoalsCurrentPerimeter[1][0] - _iaGamesCurrentPosition[1] > 0) // GAME is in G0
       {
         std::cout << "\nIn G0";
-        if (Goal[2][0] > _iaGamesCurrentPosition[2]) std::cout << "\n<- Goal[2][0]";
-        else if (Goal[2][0] <= _iaGamesCurrentPosition[2] && _iaGamesCurrentPosition[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
-        else if (Goal[2][1] < _iaGamesCurrentPosition[2]) std::cout << "\n-> Goal[2][1] ";
+        if (_iaGoalsCurrentPerimeter[2][0] > _iaGamesCurrentPosition[2]) std::cout << "\n<- Goal[2][0]";
+        else if (_iaGoalsCurrentPerimeter[2][0] <= _iaGamesCurrentPosition[2] && _iaGamesCurrentPosition[2] <= _iaGoalsCurrentPerimeter[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (_iaGoalsCurrentPerimeter[2][1] < _iaGamesCurrentPosition[2]) std::cout << "\n-> Goal[2][1] ";
       }
-      else if (Goal[0][1] - _iaGamesCurrentPosition[0] < 0 && Goal[1][1] - _iaGamesCurrentPosition[1] > 0) // GAME is in G2
+      else if (_iaGoalsCurrentPerimeter[0][1] - _iaGamesCurrentPosition[0] < 0 && _iaGoalsCurrentPerimeter[1][1] - _iaGamesCurrentPosition[1] > 0) // GAME is in G2
       {
         std::cout << "\nIn G2";
-        if (Goal[2][0] > _iaGamesCurrentPosition[2]) std::cout << "\n<- Goal[2][0]";
-        else if (Goal[2][0] <= _iaGamesCurrentPosition[2] && _iaGamesCurrentPosition[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
-        else if (Goal[2][1] < _iaGamesCurrentPosition[2]) std::cout << "\n-> Goal[2][1]";
+        if (_iaGoalsCurrentPerimeter[2][0] > _iaGamesCurrentPosition[2]) std::cout << "\n<- Goal[2][0]";
+        else if (_iaGoalsCurrentPerimeter[2][0] <= _iaGamesCurrentPosition[2] && _iaGamesCurrentPosition[2] <= _iaGoalsCurrentPerimeter[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (_iaGoalsCurrentPerimeter[2][1] < _iaGamesCurrentPosition[2]) std::cout << "\n-> Goal[2][1]";
       }
-      else if (Goal[0][0] - _iaGamesCurrentPosition[0] > 0 && Goal[1][1] - _iaGamesCurrentPosition[1] < 0) // GAME is in G6
+      else if (Goal[0][0] - _iaGamesCurrentPosition[0] > 0 && _iaGoalsCurrentPerimeter[1][1] - _iaGamesCurrentPosition[1] < 0) // GAME is in G6
       {
         std::cout << "\nIn G6";
-        if (Goal[2][0] > _iaGamesCurrentPosition[2]) std::cout << "\n<- Goal[2][0]";
-        else if (Goal[2][0] <= _iaGamesCurrentPosition[2] && _iaGamesCurrentPosition[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
-        else if (Goal[2][1] < _iaGamesCurrentPosition[2]) std::cout << "\n-> Goal[2][1]";
+        if (_iaGoalsCurrentPerimeter[2][0] > _iaGamesCurrentPosition[2]) std::cout << "\n<- Goal[2][0]";
+        else if (_iaGoalsCurrentPerimeter[2][0] <= _iaGamesCurrentPosition[2] && _iaGamesCurrentPosition[2] <= _iaGoalsCurrentPerimeter[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (_iaGoalsCurrentPerimeter[2][1] < _iaGamesCurrentPosition[2]) std::cout << "\n-> Goal[2][1]";
       }
-      else if (Goal[0][1] - _iaGamesCurrentPosition[0] < 0 && Goal[1][1] - _iaGamesCurrentPosition[1] < 0) // GAME is in G8
+      else if (_iaGoalsCurrentPerimeter[0][1] - _iaGamesCurrentPosition[0] < 0 && _iaGoalsCurrentPerimeter[1][1] - _iaGamesCurrentPosition[1] < 0) // GAME is in G8
       {
         std::cout << "\nIn G8";
-        if (Goal[2][0] > _iaGamesCurrentPosition[2]) std::cout << "\n<- Goal[2][0]";
-        else if (Goal[2][0] <= _iaGamesCurrentPosition[2] && _iaGamesCurrentPosition[2] <= Goal[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
-        else if (Goal[2][1] < _iaGamesCurrentPosition[2]) std::cout << "\n-> Goal[2][1]";
+        if (_iaGoalsCurrentPerimeter[2][0] > _iaGamesCurrentPosition[2]) std::cout << "\n<- Goal[2][0]";
+        else if (_iaGoalsCurrentPerimeter[2][0] <= _iaGamesCurrentPosition[2] && _iaGamesCurrentPosition[2] <= _iaGoalsCurrentPerimeter[2][1]) std::cout << "\n [Goal[2][0] Goal[2][1]]";
+        else if (_iaGoalsCurrentPerimeter[2][1] < _iaGamesCurrentPosition[2]) std::cout << "\n-> Goal[2][1]";
       }
   }   // end if on << "Out of any axis confine." -----------------------------------------------------------------
   // GAME is in single asix confine
