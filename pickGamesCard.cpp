@@ -120,7 +120,7 @@ G4 is in a double axis confine
       if(_iaGoalsCurrentPerimeter[0][0] - _iaGamesCurrentPosition[0] > 0  &&  _iaGoalsCurrentPerimeter[1][0] - _iaGamesCurrentPosition[1] > 0 ) // GAME is in G0
       {
           std::cout<<"\nIn G0";
-          if(_iaGoalsCurrentPerimeter[2][0]>_iaGamesCurrentPosition[2]) std::cout<<"\n<- _iaGoalsCurrentPerimeter[2][0]";
+          if(_iaGoalsCurrentPerimeter[2][0]>_iaGamesCurrentPosition[2]) std::cout<<"\n<- Goals[2][0]";
            else if(_iaGoalsCurrentPerimeter[2][0]<=_iaGamesCurrentPosition[2] && _iaGamesCurrentPosition[2]<=_iaGoalsCurrentPerimeter[2][1]) std::cout<<"\n [Goal[2][0] Goal[2][1]]";
            else if(_iaGoalsCurrentPerimeter[2][1]<_iaGamesCurrentPosition[2]) std::cout<<"\n-> Goal[2][1] ";
       }else if(_iaGoalsCurrentPerimeter[0][1] - _iaGamesCurrentPosition[0] < 0  &&  _iaGoalsCurrentPerimeter[1][1] - _iaGamesCurrentPosition[1] > 0 ) // GAME is in G2
