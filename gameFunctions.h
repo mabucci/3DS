@@ -17,7 +17,7 @@ private:
   short _iaGamesBumpBackCard[2]{ {-1}, {-1} }; // Use to print out the card used to calculate the GAME’s bump back distance 
   int _iaGamesCards[nsGF::MAX_NUMBER_OF_GAME_CARDS][2]{ { 0 },{ 0 } }; // Holds Game's dealt cards 
   int _iGamesCardsTotalValue{ 0 };
-  int _iaGamesCurrentPosition[3]{ 0, 14, 0 };// { 55, 25, 55 };  // hold's Game's curent position   
+  int _iaGamesCurrentPosition[3]{ 119, 0, 0 };// { 55, 25, 55 };  // hold's Game's curent position   
   bool _bGameKickedOut{ false };  // was the GAME kicked out of the GOAL 
   short _iaGamesLastPosition[3]{ {0}, {0}, {0} };
   int _iaGamesLongestXYZPath[3]{ 0, 0, 0 };   // OODA loop GAME need to find it longest path that it can move in the GOAL from its present position
@@ -60,7 +60,7 @@ private:
   int _iaplayersBumpBackCard[2]{ {-1}, {-1} }; // will print the card out with the bump back note                                                                                                        
   int _iaPlayersCards[nsGF::MPC][2]{ {0},{0} }; // Holds Player's dealt cards 
   int _iPlayersCardsValue{ 0 };  // Total value of all player’s cards remaining to be played 
-  int _iaPlayersCurrentPosition[3]{ 40, 20, 50 }; // holds player's curent position 
+  int _iaPlayersCurrentPosition[3]{ 50, 20, 50 }; // holds player's curent position 
 
   int _iPlayersHighestCardValue{ 0 }; // Highest card value held or Players
   bool _bPlayerKO{ false }; // player kicked out
@@ -106,6 +106,10 @@ public:
   void dealCards();
   void orderCards();
   void displayCards();
+  void gamesAttitudeToGoal();  // will load _saGameOrientationToGoal[3]  [0] if GAME is between two axis on the same plane [X0 X1], 
+                               // or two sets of axis [X0 X1] & [Y0 Y1], or [X0 X1] & [Z0 Z1] . . . if three sets GAME is in the GOAL   
+                               // [1] what sector GAME is in as related to GOAL’s perimeter defining axis  and [2] GAME orientation to 
+                               // GOAL’s Z planes, below, in middle, above 
   char pickPlayersCard();
   void pickGamesCard();  // Separate file for this GameFunctions class method  see file pickGamesCard.cpp 
   void placement(int row, int col);   // place cursor for cout/print
