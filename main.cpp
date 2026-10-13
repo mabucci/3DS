@@ -44,7 +44,20 @@ int main()
 
   system("cls");      // clear the newly created window   for gamedPWace display
 
-  
+// FOR TESTING ONLY ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  char c{ 'n' };
+  std::cout << "Want to change GAME's starting position? y == yes, any other key for no: ";
+  c = _getch();
+  if (c == 'y')
+  {    
+    int x{ 0 }, y{ 0 }, z{ 0 };
+    std::cout << "Enter GAME's X Y Z seperated by space [0 119] [0 39] [0 99]: ";
+    std::cin >> x; gS.set_iaGamesCurrentPosition(0, x);
+    std::cin >> y; gS.set_iaGamesCurrentPosition(1, y);
+    std::cin >> z; gS.set_iaGamesCurrentPosition(2, z);
+  }
+// FOR TESTING ONLY ------------------------------------------------------------------------------------
+ 
   gS.shuffleDeck();
   gS.dealCards();
   gS.orderCards();
