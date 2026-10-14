@@ -115,12 +115,12 @@ void GameFunctions::pickGamesCard()
   // If the PLAYER has a possible XYZ path in the GOAL that is greater than the GAME’s possible XYZ path, and a card with that value 
   // that the PLAYER can throw-down then the GAME will loss the CONTENTION, be ejected, and the PLAYER will get second stage possession. 
   // If both GAME and PLAYER have identical paths length and play cards with same value then it’s a “PUSH”.   
-  //  On a 'PUSH' the card with the higher suit wins. 
-  //
+  //  On a 'PUSH' the card with the higher suit wins.   Ex. eight of hearts vs. ten of clubs both have same movement value of 12 game-space units
+  // but as hearts is a higher suit than clubs, then eight of hearts wins. 
   // The logic below must OODA if…
   // 1. The GAME can take / keep stage two possession of the GOAL.
   // 2. The GAME can NOT take / keep stage two possession of the GOAL.
-  //    If it can not then D decision if to make a “PUSH” throw-down or abandon the GOAL with intentional low value throw-down card.
+  //    If it cannot, then make the D (in OODA) decision as to make a "PUSH" throw-down or abandon the GOAL with an intentional low value throw-down card.
   //
 
 /*****
@@ -217,7 +217,7 @@ only move parallel to the Y0 or Y1 axis   this will make your path a right angle
            X0                   X1
 
 G0, G2, G3, G5, G6, and G8 are out of any axis confine
-G3, G5, G6, and G8 are in a single axis confine
+G3, G5, G1, and G7 are in a single axis confine
 G4 is in a double axis confine
 ************************************************************************************************************************************/
 
@@ -270,9 +270,9 @@ G4 is in a double axis confine
 
   // If you get past here then the GOAL is navigable by GAME
 
-  // Total possession of the GOAL take two turns(two throw downs).First P or G must jump into the GOAL range, 
+  // Total possession of the GOAL take two turns(two throw downs).First P or G must jump into the GOAL's perimeter, 
   // this makes their possession TRUE FALES, for the next turn P or G must move, but must move only within 
-  // the GOAL range.QED;  ___G____[____]_____ possession state FALSE FALSE, 
+  // the GOAL's perimeter QED;  ___G____[____]_____ possession state FALSE FALSE, 
   // next move ____[_G_____]______ possession state TRUE FALSE.
   // Now the next throw down(next turn) is to be played, G must play a card, but to take total possession 
   // of the GOAL G must play a card that has a movement value that will keep G in the GOAL range.
@@ -309,7 +309,6 @@ G4 is in a double axis confine
         break; // break out of for loop
       }
     } // END OF 'for' on MAX_NUMBER_OF_GAME_CARDS ---------------------------------------------------------------------  
-
 
          // The GAME is farther away from the GOAL’s perimeter than its’ highest card value can move it into that perimeter.  
          // The shortest distance between two points is a straight line, so to move the GAME along as close to a straight line as 
