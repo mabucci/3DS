@@ -1280,6 +1280,19 @@ void GameFunctions::testGamesMovementRequest()
 			std::abs(_LiaXYZ[1]) < std::abs(_LiaXYZ[2]) ? (_LiaXYZ[2] >= 0 ? --_iaGamesRequestedMove[2] : ++_iaGamesRequestedMove[2]) :
 			(_LiaXYZ[1] >= 0 ? --_iaGamesRequestedMove[0] : ++_iaGamesRequestedMove[0]);
 	}
+	// now test if requested move in in game-space bounds correct if needed 
+	for (int i{ 0 }; i < nsGF::NUMBER_OF_DIMENSIONS; ++i)
+	{
+		if (_iaGamesCurrentPosition[i] + _iaGamesRequestedMove[i] < 0)
+		{
+			_iaGamesRequestedMove[i] = -1 * _iaGamesCurrentPosition[i];
+		}
+		else if (_iaGamesCurrentPosition[i] + _iaGamesRequestedMove[i] > _LiaGameSpaceDimentions[i] - 1)
+		{
+			_iaGamesRequestedMove[i] = _LiaGameSpaceDimentions[i] - 1 - _iaGamesCurrentPosition[i];
+		}
+	}// end for ...
+	
 	return; // return void 
 }
 // END testGamesMovementRequest ENDS **********************************************************************************
